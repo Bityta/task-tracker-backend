@@ -28,7 +28,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "dateOfRegistration", nullable = false)
+    @Column(name = "date_of_registration", nullable = false)
     private String dateOfRegistration;
 
     @Column(name = "firstname", nullable = false)

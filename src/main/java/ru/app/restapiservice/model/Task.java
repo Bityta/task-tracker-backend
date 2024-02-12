@@ -28,7 +28,7 @@ public class Task {
     @Column(name = "description", length = 4096)
     private String description;
 
-    @Column(name = "isCompleted", nullable = false)
+    @Column(name = "is_сompleted", nullable = false)
     private boolean isCompleted = false;
 
     @Column(name = "date_completed")
