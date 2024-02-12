@@ -1,6 +1,5 @@
 package ru.app.restapiservice.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +19,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private RoleEnum role = RoleEnum.USER;
+    private RoleEnum role;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
