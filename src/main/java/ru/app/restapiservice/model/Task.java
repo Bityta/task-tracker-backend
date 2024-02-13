@@ -29,7 +29,7 @@ public class Task {
     private String description;
 
     @Column(name = "is_сompleted", nullable = false)
-    private boolean isCompleted = false;
+    private boolean isCompleted;
 
     @Column(name = "date_completed")
     private Date dateCompleted;
