@@ -1,6 +1,7 @@
 package ru.app.restapiservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,9 +37,11 @@ public class User {
     private String firstName;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner")
+    @JsonIgnore
     private UserRole userRole;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @JsonIgnore
     private List<Task> tasks;
 
 }
