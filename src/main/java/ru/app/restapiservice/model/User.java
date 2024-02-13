@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -29,13 +30,13 @@ public class User {
     private String password;
 
     @Column(name = "date_of_registration", nullable = false)
-    private String dateOfRegistration;
+    private LocalDate dateOfRegistration;
 
-    @Column(name = "firstname", nullable = false)
-    private String firstname;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Role role;
+    private UserRole userRole;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Task> tasks;

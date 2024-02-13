@@ -1,18 +1,18 @@
 package ru.app.restapiservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "roles")
-public class Role {
+@Table(name = "user_roles")
+@ToString
+public class UserRole {
 
     @Id
     @Column(name = "id")
@@ -20,10 +20,12 @@ public class Role {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(name = "user_role")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private RoleEnum role;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ToString.Exclude
     private User owner;
 }
