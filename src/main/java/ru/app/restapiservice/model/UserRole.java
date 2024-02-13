@@ -20,7 +20,7 @@ public class UserRole {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_role")
+    @Column(name = "user_role", nullable = false)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private RoleEnum role;
 
