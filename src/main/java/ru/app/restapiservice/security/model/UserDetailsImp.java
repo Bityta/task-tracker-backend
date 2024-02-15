@@ -1,4 +1,4 @@
-package ru.app.restapiservice.config;
+package ru.app.restapiservice.security.model;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
