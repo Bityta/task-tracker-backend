@@ -1,21 +1,21 @@
-package ru.app.restapiservice.service;
+package ru.app.restapiservice.security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.config.CustomUserDetails;
 import ru.app.restapiservice.model.User;
 import ru.app.restapiservice.repository.UserRepository;
+import ru.app.restapiservice.security.model.UserDetailsImp;
 
 import java.util.Optional;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+@RequiredArgsConstructor
+public class UserDetailsServiceImp implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> user = this.userRepository.findByEmail(email);
 
         return user
-                .map(CustomUserDetails::new)
+                .map(UserDetailsImp::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
