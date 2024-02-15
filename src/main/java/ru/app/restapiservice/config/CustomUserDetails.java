@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.app.restapiservice.model.RoleEnum;
 import ru.app.restapiservice.model.User;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -19,10 +17,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return Arrays.stream(RoleEnum.values())
-                .map(Enum::toString)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority(user.getUserRole().getRole().name()));
 
     }
 
