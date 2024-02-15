@@ -2,10 +2,7 @@ package ru.app.restapiservice.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -15,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tasks")
+@ToString
 public class Task {
 
     @Id
@@ -28,7 +26,7 @@ public class Task {
     @Column(name = "description", length = 4096)
     private String description;
 
-    @Column(name = "is_сompleted", nullable = false)
+    @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
 
     @Column(name = "date_completed")
@@ -36,6 +34,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ToString.Exclude
     private User owner;
 
 
