@@ -36,7 +36,6 @@ public class UserService {
         user.setDateOfRegistration(LocalDate.now());
         user.setUserRole(userRole);
 
-        System.out.println(user.getPassword());
         this.userRepository.save(user);
         this.roleRepository.save(userRole);
     }
