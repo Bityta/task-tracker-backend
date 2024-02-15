@@ -17,10 +17,11 @@ public class Task {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_id_seq")
+    @SequenceGenerator(name = "tasks_id_seq", sequenceName = "tasks_id_seq", allocationSize = 1)
     private long id;
 
-    @Column(name = "header", nullable = false)
+    @Column(name = "header", nullable = false, length = 50)
     private String header;
 
     @Column(name = "description", length = 4096)
