@@ -15,9 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.app.restapiservice.repository.UserRepository;
 import ru.app.restapiservice.security.filter.JwtAuthFilter;
-import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 
 @Configuration
 @EnableWebSecurity
@@ -25,8 +23,7 @@ import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserRepository userRepository;
-    private final UserDetailsServiceImp userDetailsService;
+    private final UserDetailsServiinteceImp userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
 
