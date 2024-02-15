@@ -2,15 +2,12 @@ package ru.app.restapiservice.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.model.RoleEnum;
 import ru.app.restapiservice.model.User;
 import ru.app.restapiservice.model.UserRole;
 import ru.app.restapiservice.repository.RoleRepository;
 import ru.app.restapiservice.repository.UserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,23 +18,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
-    public void addUser(User user) {
+    public void save(User user, UserRole userRole) {
 
-        UserRole userRole = UserRole.builder()
-                .owner(user)
-                .role(RoleEnum.USER)
-                .build();
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setDateOfRegistration(LocalDate.now());
-        user.setUserRole(userRole);
-
-        this.userRepository.save(user);
         this.roleRepository.save(userRole);
+        this.userRepository.save(user);
+
     }
 
     public Optional<User> findByEmail(String email) {
@@ -50,5 +38,9 @@ public class UserService {
 
     public List<User> getAll() {
         return this.userRepository.findAll();
+    }
+
+    public boolean existByEmail(String email) {
+        return this.userRepository.existsByEmail(email);
     }
 }
