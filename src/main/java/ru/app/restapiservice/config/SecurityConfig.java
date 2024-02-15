@@ -31,8 +31,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("api/v1/apps/hello", "user").permitAll()
-                        .requestMatchers("api/v1/apps/**").authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/all").hasAuthority("ADMIN")
+                        .requestMatchers("/hello").authenticated()
+                        .anyRequest().permitAll()
+                )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .build();
     }
