@@ -1,10 +1,11 @@
-package ru.app.restapiservice.service;
+package ru.app.restapiservice.security.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.app.restapiservice.model.User;
 
@@ -25,9 +26,9 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean isValid(String token, User user) {
+    public boolean isValid(String token, UserDetails user) {
         String email = extractEmail(token);
-        return email.equals(user.getEmail()) && !isTokenExpired(token);
+        return email.equals(user.getUsername()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
