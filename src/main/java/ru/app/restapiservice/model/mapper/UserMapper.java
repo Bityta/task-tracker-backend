@@ -2,26 +2,37 @@ package ru.app.restapiservice.model.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.app.restapiservice.model.User;
-import ru.app.restapiservice.model.dto.UserDTO;
+import ru.app.restapiservice.model.dto.UserDto;
+import ru.app.restapiservice.model.dto.UserLoginDto;
+import ru.app.restapiservice.model.dto.UserRegisterDto;
 
 
 @Component
 public class UserMapper {
 
 
-    public User map(UserDTO userDTO) {
+    public UserDto map(User user) {
+
+        return UserDto.builder()
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .role(user.getUserRole().getRole())
+                .build();
+
+    }
+
+    public User map(UserLoginDto userDTO) {
 
         return User.builder()
                 .email(userDTO.getEmail())
-                .firstName(userDTO.getFirstName())
                 .password(userDTO.getPassword())
                 .build();
 
     }
 
-    public UserDTO map(User user) {
+    public User map(UserRegisterDto user) {
 
-        return UserDTO.builder()
+        return User.builder()
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .password(user.getPassword())
