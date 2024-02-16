@@ -29,6 +29,7 @@ public class User {
     private String email;
 
     @Column(name = "password", nullable = false, length = 60)
+    @JsonIgnore
     private String password;
 
     @Column(name = "date_of_registration", nullable = false)
