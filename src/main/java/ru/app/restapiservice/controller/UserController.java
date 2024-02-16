@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.app.restapiservice.model.User;
+import ru.app.restapiservice.model.dto.UserDTO;
+import ru.app.restapiservice.model.mapper.UserMapper;
 import ru.app.restapiservice.security.service.AuthService;
 import ru.app.restapiservice.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,12 +22,15 @@ public class UserController {
 
     private final UserService userService;
     private final AuthService authService;
+    private final UserMapper userMapper;
+
 
     @PostMapping("/reg")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
 
-        if (!userService.existByEmail(user.getEmail())) {
-            return ResponseEntity.ok(authService.register(user));
+
+        if (!userService.existByEmail(userDTO.getEmail())) {
+            return ResponseEntity.ok(authService.register(userMapper.map(userDTO)));
         }
 
         return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -33,10 +38,10 @@ public class UserController {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
 
-        if (userService.existByEmail(user.getEmail())) {
-            return ResponseEntity.ok(authService.authenticate(user));
+        if (userService.existByEmail(userDTO.getEmail())) {
+            return ResponseEntity.ok(authService.authenticate(userMapper.map(userDTO)));
         }
 
         return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -47,9 +52,8 @@ public class UserController {
 
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public String hello(@AuthenticationPrincipal User user) {
-        System.out.println(user);
-        return "Hello " + user.getFirstName();
+    public String hello(Principal user) {
+        return "Hello " + user.getName();
     }
 
 
