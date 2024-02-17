@@ -10,7 +10,6 @@ import ru.app.restapiservice.model.dto.UserRegisterDto;
 @Component
 public class UserMapper {
 
-
     public UserDtoView map(User user) {
 
         return UserDtoView.builder()
@@ -39,6 +38,5 @@ public class UserMapper {
                 .build();
 
     }
-
 
 }
