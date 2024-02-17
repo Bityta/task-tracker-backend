@@ -1,7 +1,10 @@
 package ru.app.restapiservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -11,7 +14,6 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_roles")
-@ToString
 public class UserRole {
 
     @Id
@@ -27,6 +29,5 @@ public class UserRole {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ToString.Exclude
     private User owner;
 }
