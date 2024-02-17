@@ -9,14 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import ru.app.restapiservice.exception.customException.UserNotFoundException;
-import ru.app.restapiservice.model.dto.error.ErrorMessageDtoView;
 import ru.app.restapiservice.model.dto.user.UserDtoView;
 import ru.app.restapiservice.model.mapper.UserMapper;
 import ru.app.restapiservice.service.UserService;
@@ -28,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "User", description = "Methods for working with current authorized user")
+@Tag(name = "User", description = "Methods for working with authorized user")
 public class UserController {
 
     private final UserService userService;
@@ -195,14 +192,7 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
 
-        try {
-            return ResponseEntity.ok(this.userMapper.map(this.userService.findById(id)));
-
-        } catch (UserNotFoundException ex) {
-
-            ErrorMessageDtoView errors = new ErrorMessageDtoView("Email", ex.getMessage());
-            return new ResponseEntity<>(errors.getError(), HttpStatus.CONFLICT);
-        }
+        return ResponseEntity.ok(this.userMapper.map(this.userService.findById(id)));
     }
 
 
