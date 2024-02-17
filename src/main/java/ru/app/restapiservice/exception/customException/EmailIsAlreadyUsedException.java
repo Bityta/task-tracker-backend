@@ -1,4 +1,4 @@
-package ru.app.restapiservice.exeption.customException;
+package ru.app.restapiservice.exception.customException;
 
 public class EmailIsAlreadyUsedException extends RuntimeException {
 
