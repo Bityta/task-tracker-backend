@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public UserDtoView hello(Principal user) {
+    public UserDtoView getUser(Principal user) {
         return this.userMapper.map(userService.findByEmail(user.getName()));
     }
 
@@ -49,6 +49,12 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserDtoView> getAllUsers() {
         return this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public UserDtoView getUser(@PathVariable long id) {
+        return this.userMapper.map(this.userService.findById(id));
     }
 
 
