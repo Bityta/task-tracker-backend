@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/log", "/user/reg").permitAll()
                         .requestMatchers("/user/all", "/user/{id}").hasAuthority("ADMIN")
-                        .requestMatchers("/user", "/tasks").authenticated()
+                        .requestMatchers("/user", "/task").authenticated()
                         .anyRequest().permitAll()
                 )
                 .userDetailsService(userDetailsService)
