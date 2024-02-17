@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice(assignableTypes = TaskController.class)
+@Hidden()
 public class TaskExceptionHandler {
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();

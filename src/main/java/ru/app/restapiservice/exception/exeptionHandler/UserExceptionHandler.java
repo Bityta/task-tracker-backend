@@ -12,11 +12,11 @@ import ru.app.restapiservice.model.dto.error.ErrorMessageDtoView;
 import java.util.Map;
 
 @RestControllerAdvice(assignableTypes = UserController.class)
+@Hidden
 public class UserExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserNotFoundException.class)
-    @Hidden
     public Map<String, String> handleUserNotFoundExceptions(UserNotFoundException ex) {
 
         ErrorMessageDtoView errors = new ErrorMessageDtoView("Email", ex.getMessage());
