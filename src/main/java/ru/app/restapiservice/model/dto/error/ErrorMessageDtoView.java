@@ -1,4 +1,4 @@
-package ru.app.restapiservice.model.dto;
+package ru.app.restapiservice.model.dto.error;
 
 
 import lombok.AllArgsConstructor;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.app.restapiservice.exeption.customException.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.exeption.customException.UserNotFoundException;
-import ru.app.restapiservice.model.dto.ErrorMessageDtoView;
+import ru.app.restapiservice.model.dto.error.ErrorMessageDtoView;
 
 import java.util.Map;
 
