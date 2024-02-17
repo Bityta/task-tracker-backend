@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.model.dto.error.ErrorMessageDtoView;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "User", description = "Methods for working with current authorized user")
@@ -77,7 +75,7 @@ public class UserController {
 
             }
     )
-    @GetMapping()
+    @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public UserDtoView getUser(Principal user) {
         return this.userMapper.map(userService.findByEmail(user.getName()));
@@ -134,8 +132,8 @@ public class UserController {
 
             }
     )
-    @GetMapping("/all")
-    public List<UserDtoView> getAllUsers() {
+    @GetMapping("/users")
+    public List<UserDtoView> getUsers() {
         return this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList());
     }
 
@@ -183,10 +181,18 @@ public class UserController {
 
                             )
                     )
+                    ,
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Non-existent id",
+                            content = @Content(
+
+                            )
+                    )
 
             }
     )
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
 
         try {
