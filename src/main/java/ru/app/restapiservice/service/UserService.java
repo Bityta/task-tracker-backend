@@ -3,7 +3,7 @@ package ru.app.restapiservice.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.exeption.customException.UserNotFoundException;
+import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.model.User;
 import ru.app.restapiservice.model.UserRole;
 import ru.app.restapiservice.repository.RoleRepository;
