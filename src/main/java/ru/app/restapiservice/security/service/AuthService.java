@@ -2,10 +2,12 @@ package ru.app.restapiservice.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.app.restapiservice.exeption.customException.EmailIsAlreadyUsedException;
+import ru.app.restapiservice.exeption.customException.UserNotFoundException;
 import ru.app.restapiservice.model.RoleEnum;
 import ru.app.restapiservice.model.User;
 import ru.app.restapiservice.model.UserRole;
@@ -39,6 +41,10 @@ public class AuthService {
                 .role(RoleEnum.USER)
                 .build();
 
+        if (this.userService.existByEmail(user.getEmail())) {
+            throw new EmailIsAlreadyUsedException("This email address is already used");
+        }
+
 
         userService.save(user, userRole);
 
@@ -49,15 +55,19 @@ public class AuthService {
     }
 
 
-    public AuthenticationResponse authenticate(User request) {
+    public AuthenticationResponse authenticate(User request) throws UserNotFoundException, BadCredentialsException {
+
+
+        User user = userService.findByEmail(request.getEmail());
+
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        user.getEmail(),
+                        user.getPassword()
                 )
         );
 
-        User user = userService.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = jwtService.generateToken(user);
 

@@ -3,13 +3,13 @@ package ru.app.restapiservice.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.app.restapiservice.exeption.customException.UserNotFoundException;
 import ru.app.restapiservice.model.User;
 import ru.app.restapiservice.model.UserRole;
 import ru.app.restapiservice.repository.RoleRepository;
 import ru.app.restapiservice.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -28,8 +28,10 @@ public class UserService {
 
     }
 
-    public Optional<User> findByEmail(String email) {
-        return this.userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+
+        return this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with specified email address does not exist"));
     }
 
 
