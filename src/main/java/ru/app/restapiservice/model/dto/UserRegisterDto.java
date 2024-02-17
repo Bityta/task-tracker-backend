@@ -28,5 +28,4 @@ public class UserRegisterDto {
     @NotBlank(message = "First name cannot be empty")
     private String firstName;
 
-
 }

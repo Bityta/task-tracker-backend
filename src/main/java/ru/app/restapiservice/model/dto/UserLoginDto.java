@@ -12,7 +12,6 @@ import lombok.Data;
 @Builder
 public class UserLoginDto {
 
-
     @Size(min = 5, max = 50, message = "Email must contain from 5 to 50 characters")
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
@@ -23,6 +22,5 @@ public class UserLoginDto {
     @NotBlank(message = "Password cannot be empty")
     @Transient
     private String password;
-
 
 }
