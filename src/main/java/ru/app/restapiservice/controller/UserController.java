@@ -39,19 +39,11 @@ public class UserController {
         return ResponseEntity.ok(this.authService.authenticate(this.userMapper.map(userLoginDto)));
     }
 
-
-    @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public String hello(Principal user) {
-        return "Hello " + user.getName();
-    }
-
-
     @GetMapping()
-    public String sayHello() {
-        return "Hello!";
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public UserDtoView hello(Principal user) {
+        return this.userMapper.map(userService.findByEmail(user.getName()));
     }
-
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
