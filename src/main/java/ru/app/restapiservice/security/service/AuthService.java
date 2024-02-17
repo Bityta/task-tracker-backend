@@ -6,13 +6,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
-import ru.app.restapiservice.exception.customException.UserNotFoundException;
-import ru.app.restapiservice.model.RoleEnum;
-import ru.app.restapiservice.model.User;
-import ru.app.restapiservice.model.UserRole;
+import ru.app.restapiservice.api.model.RoleEnum;
+import ru.app.restapiservice.api.model.User;
+import ru.app.restapiservice.api.model.UserRole;
+import ru.app.restapiservice.api.service.UserService;
+import ru.app.restapiservice.customException.customException.UserNotFoundException;
+import ru.app.restapiservice.exception.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
-import ru.app.restapiservice.service.UserService;
 
 import java.time.LocalDate;
 
