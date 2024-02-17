@@ -1,12 +1,12 @@
 package ru.app.restapiservice.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.app.restapiservice.model.dto.task.TaskDto;
 import ru.app.restapiservice.model.dto.task.TaskDtoView;
 import ru.app.restapiservice.model.mapper.TaskMapper;
 import ru.app.restapiservice.service.UserService;
@@ -27,8 +27,16 @@ public class TaskController {
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public List<TaskDtoView> getTasks(Principal user) {
-        return userService.findByEmail(user.getName()).getTasks().stream()
+        return this.userService.findByEmail(user.getName()).getTasks().stream()
                 .map(this.taskMapper::map)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping()
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public void addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
+        this.userService.findByEmail(user.getName()).addTask(this.taskMapper.map(taskDto));
+    }
+
+
 }
