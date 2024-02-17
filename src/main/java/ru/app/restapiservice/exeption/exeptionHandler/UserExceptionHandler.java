@@ -30,7 +30,7 @@ public class UserExceptionHandler {
             errors.setErrorMessage(errorMessage);
         });
 
-        return errors.getMap();
+        return errors.getError();
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -39,7 +39,7 @@ public class UserExceptionHandler {
 
         ErrorMessageDtoView errors = new ErrorMessageDtoView("Email", ex.getMessage());
 
-        return errors.getMap();
+        return errors.getError();
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -48,7 +48,7 @@ public class UserExceptionHandler {
 
         ErrorMessageDtoView errors = new ErrorMessageDtoView("Credentials", ex.getMessage());
 
-        return errors.getMap();
+        return errors.getError();
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -57,7 +57,7 @@ public class UserExceptionHandler {
 
         ErrorMessageDtoView errors = new ErrorMessageDtoView("Email", ex.getMessage());
 
-        return errors.getMap();
+        return errors.getError();
     }
 
 }
