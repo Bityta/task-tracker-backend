@@ -1,5 +1,6 @@
 package ru.app.restapiservice.model.dto.user;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@Schema(name = "User Login", description = "Information about logged in users")
 public class UserLoginDto {
 
     @Size(min = 5, max = 50, message = "Email must contain from 5 to 50 characters")

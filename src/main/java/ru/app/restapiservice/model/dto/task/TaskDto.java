@@ -1,6 +1,7 @@
 package ru.app.restapiservice.model.dto.task;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@Schema(name = "Task", description = "Information about task")
 public class TaskDto {
 
     @Size(min = 5, max = 50, message = "Header must contain from 5 to 50 characters")
