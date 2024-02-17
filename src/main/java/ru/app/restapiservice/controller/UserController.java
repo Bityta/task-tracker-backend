@@ -31,12 +31,12 @@ public class UserController {
 
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        return ResponseEntity.ok(authService.register(userMapper.map(userRegisterDto)));
+        return ResponseEntity.ok(this.authService.register(this.userMapper.map(userRegisterDto)));
     }
 
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
-        return ResponseEntity.ok(authService.authenticate(userMapper.map(userLoginDto)));
+        return ResponseEntity.ok(this.authService.authenticate(this.userMapper.map(userLoginDto)));
     }
 
 
@@ -56,7 +56,7 @@ public class UserController {
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserDtoView> getAllUsers() {
-        return userService.getAll().stream().map(userMapper::map).collect(Collectors.toList());
+        return this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList());
     }
 
 
