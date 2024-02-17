@@ -46,4 +46,8 @@ public class User {
     @JsonIgnore
     private List<Task> tasks;
 
+    public void addTask(Task task) {
+        this.tasks.add(task);
+    }
+
 }
