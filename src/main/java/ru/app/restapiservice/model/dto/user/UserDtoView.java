@@ -1,4 +1,4 @@
-package ru.app.restapiservice.model.dto;
+package ru.app.restapiservice.model.dto.user;
 
 
 import lombok.Builder;

@@ -2,9 +2,9 @@ package ru.app.restapiservice.model.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.app.restapiservice.model.User;
-import ru.app.restapiservice.model.dto.UserDtoView;
-import ru.app.restapiservice.model.dto.UserLoginDto;
-import ru.app.restapiservice.model.dto.UserRegisterDto;
+import ru.app.restapiservice.model.dto.user.UserDtoView;
+import ru.app.restapiservice.model.dto.user.UserLoginDto;
+import ru.app.restapiservice.model.dto.user.UserRegisterDto;
 
 
 @Component
