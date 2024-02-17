@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.app.restapiservice.api.controller.UserController;
 import ru.app.restapiservice.api.model.dto.error.ErrorMessageDtoView;
-import ru.app.restapiservice.customException.customException.UserNotFoundException;
+import ru.app.restapiservice.exception.UserNotFoundException;
 
 import java.util.Map;
 

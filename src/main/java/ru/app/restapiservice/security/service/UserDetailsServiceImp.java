@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.service.UserService;
-import ru.app.restapiservice.customException.customException.UserNotFoundException;
+import ru.app.restapiservice.exception.UserNotFoundException;
 import ru.app.restapiservice.security.userDetails.UserDetailsImp;
 
 @Service
