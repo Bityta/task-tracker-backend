@@ -60,11 +60,10 @@ public class AuthService {
 
         User user = userService.findByEmail(request.getEmail());
 
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        user.getPassword()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
 
