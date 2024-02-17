@@ -13,6 +13,7 @@ public class UserMapper {
     public UserDtoView map(User user) {
 
         return UserDtoView.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .role(user.getUserRole().getRole())
