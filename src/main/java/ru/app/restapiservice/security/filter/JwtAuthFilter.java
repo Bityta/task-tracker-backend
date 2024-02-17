@@ -42,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        String email = null;
+        String email;
 
         try {
             email = jwtService.extractEmail(token);
@@ -53,7 +53,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "JWT token is invalid");
             return;
         }
-
 
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
