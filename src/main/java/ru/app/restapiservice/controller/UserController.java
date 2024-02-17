@@ -3,7 +3,6 @@ package ru.app.restapiservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +11,6 @@ import ru.app.restapiservice.model.dto.UserDtoView;
 import ru.app.restapiservice.model.dto.UserLoginDto;
 import ru.app.restapiservice.model.dto.UserRegisterDto;
 import ru.app.restapiservice.model.mapper.UserMapper;
-import ru.app.restapiservice.security.model.AuthenticationResponse;
 import ru.app.restapiservice.security.service.AuthService;
 import ru.app.restapiservice.service.UserService;
 
@@ -33,26 +31,18 @@ public class UserController {
 
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-
-        AuthenticationResponse response = authService.register(userMapper.map(userRegisterDto));
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
-
+        return ResponseEntity.ok(authService.register(userMapper.map(userRegisterDto)));
     }
 
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
-
-        AuthenticationResponse response = authService.authenticate(userMapper.map(userLoginDto));
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
+        return ResponseEntity.ok(authService.authenticate(userMapper.map(userLoginDto)));
     }
 
 
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public String hello(Principal user) {
-
         return "Hello " + user.getName();
     }
 
