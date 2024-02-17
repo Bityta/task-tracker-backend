@@ -42,4 +42,9 @@ public class UserService {
     public boolean existByEmail(String email) {
         return this.userRepository.existsByEmail(email);
     }
+
+    public User findById(long id) {
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with specified id does not exist"));
+    }
 }
