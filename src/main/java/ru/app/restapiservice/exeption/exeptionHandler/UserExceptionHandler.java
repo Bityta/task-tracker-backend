@@ -1,6 +1,7 @@
 package ru.app.restapiservice.exeption.exeptionHandler;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +12,7 @@ import ru.app.restapiservice.exeption.customException.EmailIsAlreadyUsedExceptio
 import ru.app.restapiservice.exeption.customException.UserNotFoundException;
 import ru.app.restapiservice.model.dto.error.ErrorMessageDtoView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -21,16 +23,15 @@ public class UserExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
-        ErrorMessageDtoView errors = new ErrorMessageDtoView();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        Map<String, String> errors = new HashMap<>();
 
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.setFieldName(fieldName);
-            errors.setErrorMessage(errorMessage);
+            errors.put(fieldName, errorMessage);
         });
 
-        return errors.getError();
+        return errors;
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -57,6 +58,14 @@ public class UserExceptionHandler {
 
         ErrorMessageDtoView errors = new ErrorMessageDtoView("Email", ex.getMessage());
 
+        return errors.getError();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Map<String, String> handleEmptyBodyExceptions(HttpMessageNotReadableException ex) {
+
+        ErrorMessageDtoView errors = new ErrorMessageDtoView("Credentials", "Credentials cannot be empty");
         return errors.getError();
     }
 
