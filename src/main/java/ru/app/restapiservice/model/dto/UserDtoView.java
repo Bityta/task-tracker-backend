@@ -8,7 +8,7 @@ import ru.app.restapiservice.model.RoleEnum;
 
 @Data
 @Builder
-public class UserDto {
+public class UserDtoView {
 
     private long id;
 

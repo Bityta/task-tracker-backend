@@ -10,7 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.app.restapiservice.model.dto.UserDto;
+import ru.app.restapiservice.model.dto.UserDtoView;
 import ru.app.restapiservice.model.dto.UserLoginDto;
 import ru.app.restapiservice.model.dto.UserRegisterDto;
 import ru.app.restapiservice.model.mapper.UserMapper;
@@ -73,7 +73,7 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<UserDto> getAllUsers() {
+    public List<UserDtoView> getAllUsers() {
 
         return userService.getAll().stream()
                 .map(userMapper::map)
