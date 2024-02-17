@@ -1,5 +1,7 @@
 package ru.app.restapiservice.security.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,15 +42,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        String email = jwtService.extractEmail(token);
+        String email = null;
+
+        try {
+            email = jwtService.extractEmail(token);
+        } catch (ExpiredJwtException ex) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired");
+            return;
+        } catch (MalformedJwtException ex) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "JWT token is invalid");
+            return;
+        }
+
 
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
-            if (jwtService.isValid(token, userDetails)) {
+            if (this.jwtService.isValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
