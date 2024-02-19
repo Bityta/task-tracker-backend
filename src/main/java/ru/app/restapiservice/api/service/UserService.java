@@ -7,7 +7,7 @@ import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.UserRole;
 import ru.app.restapiservice.api.repository.RoleRepository;
 import ru.app.restapiservice.api.repository.UserRepository;
-import ru.app.restapiservice.exception.UserNotFoundException;
+import ru.app.restapiservice.exception.customException.UserNotFoundException;
 
 import java.util.List;
 
