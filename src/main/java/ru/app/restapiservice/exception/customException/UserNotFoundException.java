@@ -1,4 +1,4 @@
-package ru.app.restapiservice.exception;
+package ru.app.restapiservice.exception.customException;
 
 
 public class UserNotFoundException extends RuntimeException {
