@@ -3,7 +3,7 @@ package ru.app.restapiservice.api.model.dto.task;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -17,5 +17,5 @@ public class TaskDtoView {
 
     private boolean isCompleted;
 
-    private Date dateCompleted;
+    private LocalDate dateCompleted;
 }
