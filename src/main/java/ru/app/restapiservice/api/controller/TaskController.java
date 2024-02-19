@@ -79,30 +79,7 @@ public class TaskController {
                             responseCode = "403",
                             description = "Invalid Token",
                             content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = """
-                                                                [
-                                                                    {
-                                                                        "id": 1,
-                                                                        "header": "ExampleHeader1",
-                                                                        "description": "containing a description",
-                                                                        "dateCompleted": null,
-                                                                        "completed": false
-                                                                    },
-                                                                    {
-                                                                        "id": 2,
-                                                                        "header": "ExampleHeader2",
-                                                                        "description": "containing a description",
-                                                                        "dateCompleted": null,
-                                                                        "completed": false
-                                                                    }
-                                                                ]
-                                                            """
 
-                                            )
-                                    }
 
                             )
                     )
