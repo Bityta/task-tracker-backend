@@ -2,6 +2,8 @@ package ru.app.restapiservice.security.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import ru.app.restapiservice.security.service.JwtService;
 import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 
 import java.io.IOException;
+
 
 @RequiredArgsConstructor
 @Component
@@ -46,10 +49,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         try {
             email = jwtService.extractEmail(token);
-        } catch (ExpiredJwtException ex) {
+        } catch (ExpiredJwtException expEx) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired");
             return;
-        } catch (MalformedJwtException ex) {
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException unsEx) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "JWT token is invalid");
             return;
         }
