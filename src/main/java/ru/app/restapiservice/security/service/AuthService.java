@@ -10,8 +10,8 @@ import ru.app.restapiservice.api.model.RoleEnum;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.UserRole;
 import ru.app.restapiservice.api.service.UserService;
-import ru.app.restapiservice.exception.EmailIsAlreadyUsedException;
-import ru.app.restapiservice.exception.UserNotFoundException;
+import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
+import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
 
 import java.time.LocalDate;
