@@ -9,17 +9,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import ru.app.restapiservice.api.model.dto.user.UserDtoView;
 import ru.app.restapiservice.api.model.mapper.UserMapper;
 import ru.app.restapiservice.api.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -74,8 +73,10 @@ public class UserController {
     )
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public UserDtoView getUser(Principal user) {
-        return this.userMapper.map(userService.findByEmail(user.getName()));
+    public ResponseEntity<?> getUser(Principal user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.userMapper.map(userService.findByEmail(user.getName())));
     }
 
     @Operation(
@@ -130,8 +131,10 @@ public class UserController {
             }
     )
     @GetMapping("/users")
-    public List<UserDtoView> getUsers() {
-        return this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList());
+    public ResponseEntity<?> getUsers() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList()));
     }
 
     @Operation(
@@ -191,8 +194,9 @@ public class UserController {
     )
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
-
-        return ResponseEntity.ok(this.userMapper.map(this.userService.findById(id)));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.userMapper.map(this.userService.findById(id)));
     }
 
 

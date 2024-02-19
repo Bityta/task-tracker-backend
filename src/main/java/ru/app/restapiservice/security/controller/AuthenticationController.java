@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,7 +87,9 @@ public class AuthenticationController {
     )
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        return ResponseEntity.ok(this.authService.register(this.userMapper.map(userRegisterDto)));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.authService.register(this.userMapper.map(userRegisterDto)));
     }
 
     @Operation(
@@ -148,6 +151,8 @@ public class AuthenticationController {
     )
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
-        return ResponseEntity.ok(this.authService.authenticate(this.userMapper.map(userLoginDto)));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.authService.authenticate(this.userMapper.map(userLoginDto)));
     }
 }

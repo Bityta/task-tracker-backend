@@ -9,18 +9,18 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.task.TaskDto;
-import ru.app.restapiservice.api.model.dto.task.TaskDtoView;
 import ru.app.restapiservice.api.model.mapper.TaskMapper;
 import ru.app.restapiservice.api.service.TaskService;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -87,10 +87,12 @@ public class TaskController {
             }
     )
     @GetMapping("/tasks")
-    public List<TaskDtoView> getTasks(Principal user) {
-        return this.taskService.getTasks(user.getName()).stream()
-                .map(this.taskMapper::map)
-                .collect(Collectors.toList());
+    public ResponseEntity<?> getTasks(Principal user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.taskService.getTasks(user.getName()).stream()
+                        .map(this.taskMapper::map)
+                        .collect(Collectors.toList()));
     }
 
     @Operation(
@@ -146,9 +148,12 @@ public class TaskController {
             }
     )
     @PostMapping("/task")
-    public void addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
-
+    public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
         this.taskService.addTask(user.getName(), this.taskMapper.map(taskDto));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Success: Task added");
 
     }
 
