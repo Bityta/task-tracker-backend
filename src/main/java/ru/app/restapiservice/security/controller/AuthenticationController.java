@@ -1,4 +1,4 @@
-package ru.app.restapiservice.security.config;
+package ru.app.restapiservice.security.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
