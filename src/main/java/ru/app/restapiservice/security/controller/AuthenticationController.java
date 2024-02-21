@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserLoginDto;
 import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
 import ru.app.restapiservice.api.model.mapper.UserMapper;
-import ru.app.restapiservice.rabbitMQ.service.RabbitMQService;
 import ru.app.restapiservice.security.service.AuthService;
 
 @RestController
@@ -27,7 +26,6 @@ public class AuthenticationController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
-    private final RabbitMQService rabbitMQService;
 
     @Operation(
             description = "Register a new user",
@@ -83,13 +81,19 @@ public class AuthenticationController {
                             content = @Content(
 
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Error microservice",
+                            content = @Content(
+
+                            )
                     )
 
             }
     )
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        this.rabbitMQService.sendGreetingsMessage(userRegisterDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.authService.register(this.userMapper.map(userRegisterDto)));
