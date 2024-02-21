@@ -32,7 +32,7 @@ public class AuthService {
         User user = User.builder()
                 .email(request.getEmail())
                 .firstName(request.getFirstName())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(this.passwordEncoder.encode(request.getPassword()))
                 .dateOfRegistration(LocalDate.now())
                 .build();
 
@@ -46,10 +46,10 @@ public class AuthService {
         }
 
 
-        userService.save(user, userRole);
+        this.userService.save(user, userRole);
 
 
-        String token = jwtService.generateToken(user);
+        String token = this.jwtService.generateToken(user);
 
         return new AuthenticationResponse(token);
     }
@@ -58,9 +58,9 @@ public class AuthService {
     public AuthenticationResponse authenticate(User request) throws UserNotFoundException, BadCredentialsException {
 
 
-        User user = userService.findByEmail(request.getEmail());
+        User user = this.userService.findByEmail(request.getEmail());
 
-        authenticationManager.authenticate(
+        this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
@@ -68,7 +68,7 @@ public class AuthService {
         );
 
 
-        String token = jwtService.generateToken(user);
+        String token = this.jwtService.generateToken(user);
 
         return new AuthenticationResponse(token);
 
