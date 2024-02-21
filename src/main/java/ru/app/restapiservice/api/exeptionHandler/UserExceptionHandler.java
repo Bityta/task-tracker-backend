@@ -17,7 +17,7 @@ public class UserExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserNotFoundException.class)
-    public Map<String, String> handleUserNotFoundExceptions(UserNotFoundException ex) {
+    public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
 
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.CONFLICT)
