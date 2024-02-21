@@ -1,5 +1,6 @@
 package ru.app.restapiservice.security.exeptionHandler;
 
+import feign.FeignException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,7 +24,7 @@ public class AuthenticationExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EmailIsAlreadyUsedException.class)
-    public Map<String, String> handleEmailIsAlreadyUsedExceptions(EmailIsAlreadyUsedException ex) {
+    public Map<String, String> handleEmailIsAlreadyUsedException(EmailIsAlreadyUsedException ex) {
 
 
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
@@ -37,7 +38,7 @@ public class AuthenticationExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
-    public Map<String, String> handleBadCredentialsExceptions(BadCredentialsException ex) {
+    public Map<String, String> handleBadCredentialsException(BadCredentialsException ex) {
 
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
@@ -72,6 +73,21 @@ public class AuthenticationExceptionHandler {
                 .build();
 
         return error.getError();
+    }
+
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(FeignException.class)
+    @Hidden
+    public Map<String, String> handleFeignException(FeignException ex) {
+
+        ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .error(ex.getMessage())
+                .path("/")
+                .build();
+
+        return errors.getError();
     }
 
 }
