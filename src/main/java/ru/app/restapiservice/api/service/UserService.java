@@ -8,6 +8,7 @@ import ru.app.restapiservice.api.model.UserRole;
 import ru.app.restapiservice.api.repository.RoleRepository;
 import ru.app.restapiservice.api.repository.UserRepository;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
+import ru.app.restapiservice.rabbitMQ.service.RabbitMQService;
 
 import java.util.List;
 
@@ -18,11 +19,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final RabbitMQService rabbitMQService;
 
 
     @Transactional
     public void save(User user, UserRole userRole) {
 
+        this.rabbitMQService.sendGreetingsMessage(user.getEmail());
         this.roleRepository.save(userRole);
         this.userRepository.save(user);
 
