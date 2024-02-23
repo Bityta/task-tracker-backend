@@ -16,10 +16,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${secret_key}")
+    @Value("${jwt.token.secret-key}")
     private String SECRET_KEY;
 
-    @Value("${life_time}")
+    @Value("${jwt.token.life-time}")
     private int LIFE_TIME;
 
     public String extractEmail(String token) {
