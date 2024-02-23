@@ -1,18 +1,23 @@
 spring:
+
   application:
     name: task-tracker-backend
+
   jpa:
     hibernate:
       ddl-auto: none
+
   datasource:
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:15432/task-tracker-backend
     username: admin
-    password: 1111
-    url: jdbc:postgresql://localhost:15432/postgres
+    password: admin
+
   flyway:
-    url: jdbc:postgresql://localhost:15432/postgres
+    url: jdbc:postgresql://localhost:15432/task-tracker-backend
     user: admin
-    password: 1111
+    password: admin
+    schemas: admin
 
 jwt:
   token:
