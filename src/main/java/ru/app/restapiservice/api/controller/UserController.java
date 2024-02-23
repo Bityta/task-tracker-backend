@@ -9,17 +9,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import ru.app.restapiservice.api.model.dto.user.UserDtoView;
 import ru.app.restapiservice.api.model.mapper.UserMapper;
 import ru.app.restapiservice.api.service.UserService;
 
 import java.security.Principal;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
     @Operation(
             description = "Getting information about current authorized User",
@@ -132,9 +136,15 @@ public class UserController {
     )
     @GetMapping("/users")
     public ResponseEntity<?> getUsers() {
+        logger.info("Received request to get all users");
+        List<UserDtoView> users = this.userService.getAll().stream()
+                .map(this.userMapper::map)
+                .toList();
+        logger.info("Users details added successfully");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.userService.getAll().stream().map(this.userMapper::map).collect(Collectors.toList()));
+                .body(users);
     }
 
     @Operation(
@@ -194,9 +204,13 @@ public class UserController {
     )
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
+        logger.info("Received request to get user by ID: " + id);
+        UserDtoView user = this.userMapper.map(this.userService.findById(id));
+        logger.info("User details retrieved successfully: " + user.toString());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.userMapper.map(this.userService.findById(id)));
+                .body(user);
     }
 
 
