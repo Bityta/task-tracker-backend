@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.task.TaskDto;
+import ru.app.restapiservice.api.model.dto.task.TaskDtoView;
 import ru.app.restapiservice.api.model.mapper.TaskMapper;
 import ru.app.restapiservice.api.service.TaskService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +36,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
+    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
 
     @Operation(
@@ -88,11 +93,15 @@ public class TaskController {
     )
     @GetMapping("/tasks")
     public ResponseEntity<?> getTasks(Principal user) {
+        logger.info("Received request to get tasks of authorized user: " + user.getName());
+        List<TaskDtoView> tasks = this.taskService.getTasks(user.getName()).stream()
+                .map(this.taskMapper::map)
+                .collect(Collectors.toList());
+        logger.info("Tasks authorized user details retrieved successfully: " + user.getName());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.taskService.getTasks(user.getName()).stream()
-                        .map(this.taskMapper::map)
-                        .collect(Collectors.toList()));
+                .body(tasks);
     }
 
     @Operation(
@@ -149,7 +158,9 @@ public class TaskController {
     )
     @PostMapping("/task")
     public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
+        logger.info("Received request to add task of authorized user: " + user.getName());
         this.taskService.addTask(user.getName(), this.taskMapper.map(taskDto));
+        logger.info("Tasks authorized user details added successfully: " + user.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
