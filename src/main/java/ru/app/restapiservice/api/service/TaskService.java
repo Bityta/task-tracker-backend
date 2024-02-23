@@ -20,7 +20,6 @@ public class TaskService {
     public void addTask(String email, Task task) {
 
         User user = this.userService.findByEmail(email);
-
         user.addTask(task);
         task.setOwner(user);
 
@@ -32,10 +31,7 @@ public class TaskService {
 
 
     public List<Task> getTasks(String email) {
-
         return this.userService.findByEmail(email).getTasks();
-
-
     }
 
 }
