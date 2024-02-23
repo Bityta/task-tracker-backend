@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserDtoView;
 import ru.app.restapiservice.api.model.mapper.UserMapper;
@@ -26,8 +27,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "User", description = "Methods for working with authorized user")
+@Tag(name = "Users", description = "Methods for working with authorized user")
 public class UserController {
 
     private final UserService userService;
@@ -75,8 +77,8 @@ public class UserController {
 
             }
     )
-    @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @GetMapping
     public ResponseEntity<?> getUser(Principal user) {
         logger.info("Received request to get current user");
         UserDtoView userDtoView = this.userMapper.map(
@@ -141,7 +143,7 @@ public class UserController {
 
             }
     )
-    @GetMapping("/users")
+    @GetMapping("/all")
     public ResponseEntity<?> getUsers() {
         logger.info("Received request to get all users");
         List<UserDtoView> users = this.userService.getAll().stream()
@@ -209,7 +211,7 @@ public class UserController {
 
             }
     )
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
         logger.info("Received request to get user by ID: " + id);
         UserDtoView user = this.userMapper.map(

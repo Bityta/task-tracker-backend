@@ -14,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.app.restapiservice.api.model.dto.task.TaskDto;
 import ru.app.restapiservice.api.model.dto.task.TaskDtoView;
 import ru.app.restapiservice.api.model.mapper.TaskMapper;
@@ -30,8 +27,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Validated
+@RequestMapping("/tasks")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "Task", description = "Methods for working with tasks of an authorized user")
+@Tag(name = "Tasks", description = "Methods for working with tasks of an authorized user")
 public class TaskController {
 
     private final TaskService taskService;
@@ -91,7 +89,7 @@ public class TaskController {
 
             }
     )
-    @GetMapping("/tasks")
+    @GetMapping
     public ResponseEntity<?> getTasks(Principal user) {
         logger.info("Received request to get tasks {} ", user.getName());
         List<TaskDtoView> tasks = this.taskService.getTasks(user.getName()).stream()
@@ -156,7 +154,7 @@ public class TaskController {
 
             }
     )
-    @PostMapping("/task")
+    @PostMapping
     public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
         logger.info("Received request to add task {}", user.getName());
         this.taskService.addTask(
