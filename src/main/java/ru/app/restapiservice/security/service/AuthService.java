@@ -20,12 +20,11 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private static final RoleEnum DEFAULT_ROLE = RoleEnum.USER;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
-    private static final RoleEnum DEFAULT_ROLE = RoleEnum.USER;
 
     public AuthenticationResponse register(User request) {
         User user = User.builder()

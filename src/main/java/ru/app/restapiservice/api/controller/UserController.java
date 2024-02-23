@@ -32,9 +32,9 @@ import java.util.List;
 @Tag(name = "Users", description = "Methods for working with authorized user")
 public class UserController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final UserMapper userMapper;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Operation(
             description = "Getting information about current authorized User",

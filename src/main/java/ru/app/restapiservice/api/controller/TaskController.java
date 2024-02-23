@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
 @Tag(name = "Tasks", description = "Methods for working with tasks of an authorized user")
 public class TaskController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
     private final TaskService taskService;
     private final TaskMapper taskMapper;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
     @Operation(
             description = "Getting information about tasks current authorized User",

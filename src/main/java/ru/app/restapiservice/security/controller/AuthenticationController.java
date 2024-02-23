@@ -27,9 +27,9 @@ import ru.app.restapiservice.security.service.AuthService;
 @Tag(name = "Authentication", description = "Methods for user authentication")
 public class AuthenticationController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthService authService;
     private final UserMapper userMapper;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Operation(
             description = "Register a new user",

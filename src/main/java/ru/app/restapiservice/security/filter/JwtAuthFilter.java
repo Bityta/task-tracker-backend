@@ -28,11 +28,11 @@ import java.io.IOException;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final UserDetailsServiceImp userDetailsService;
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthFilter.class);
     private static final String HEADER = "Authorization";
     private static final String HEADER_CODE = "Bearer ";
+    private final JwtService jwtService;
+    private final UserDetailsServiceImp userDetailsService;
 
     @Override
     protected void doFilterInternal(
