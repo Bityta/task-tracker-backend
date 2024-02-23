@@ -11,21 +11,4 @@ public class RestApiServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(RestApiServiceApplication.class, args);
     }
-
-    //todo
-    //документация + тесты
-    //private final String DEFAULT_ROLE = "ROLE_USER";
-
-    //изменени сфагера под микросерфисы
-
-
-    //потом:
-    //сообрание микросерфиса
-    //@handleBadCredentialsExceptions убрать русские буквы
-    //пересмотр дто которые выводяться (меняьь и в дто и свагере)
-    //path v error (некоторые)
-    //logger mb
-    //redirect в случиаи ошиибок и тд (для фронт энда)
-    //deploy
-
 }
