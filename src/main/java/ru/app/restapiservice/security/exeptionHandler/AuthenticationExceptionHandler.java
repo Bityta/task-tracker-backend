@@ -2,6 +2,8 @@ package ru.app.restapiservice.security.exeptionHandler;
 
 import feign.FeignException;
 import io.swagger.v3.oas.annotations.Hidden;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
+import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.exception.model.dto.ErrorMessageDtoView;
 import ru.app.restapiservice.security.controller.AuthenticationController;
 
@@ -21,17 +24,18 @@ import java.util.stream.Collectors;
 @Hidden()
 public class AuthenticationExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EmailIsAlreadyUsedException.class)
     public Map<String, String> handleEmailIsAlreadyUsedException(EmailIsAlreadyUsedException ex) {
-
-
+        logger.error("User registration error. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.CONFLICT)
                 .error(ex.getMessage())
                 .path("/reg")
                 .build();
+
 
         return errors.getError();
     }
@@ -39,7 +43,20 @@ public class AuthenticationExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public Map<String, String> handleBadCredentialsException(BadCredentialsException ex) {
+        logger.error("User data invalid. {}", ex.getMessage());
+        ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
+                .status(HttpStatus.UNAUTHORIZED)
+                .error(ex.getMessage())
+                .path("/")
+                .build();
 
+        return errors.getError();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UserNotFoundException.class)
+    public Map<String, String> handleBadCredentialsException(UserNotFoundException ex) {
+        logger.error("User data invalid. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .error(ex.getMessage())
@@ -54,15 +71,14 @@ public class AuthenticationExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        logger.error("User data validation error. {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-
 
         ErrorMessageDtoView error = ErrorMessageDtoView.builder()
                 .status(HttpStatus.BAD_REQUEST)
@@ -80,7 +96,7 @@ public class AuthenticationExceptionHandler {
     @ExceptionHandler(FeignException.class)
     @Hidden
     public Map<String, String> handleFeignException(FeignException ex) {
-
+        logger.error("Error microservice. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .error(ex.getMessage())

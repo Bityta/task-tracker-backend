@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +30,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsServiceImp userDetailsService;
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
+
 
     @Override
     protected void doFilterInternal(
@@ -49,11 +53,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         try {
             email = jwtService.extractEmail(token);
-        } catch (ExpiredJwtException expEx) {
+        } catch (ExpiredJwtException ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired");
+            logger.error("User authorization error. {}", ex.getMessage());
             return;
-        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException unsEx) {
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException ex) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "JWT token is invalid");
+            logger.error("User authorization error. {}", ex.getMessage());
             return;
         }
 

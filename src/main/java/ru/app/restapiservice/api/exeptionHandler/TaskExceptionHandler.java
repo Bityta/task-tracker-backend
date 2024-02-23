@@ -2,6 +2,8 @@ package ru.app.restapiservice.api.exeptionHandler;
 
 
 import io.swagger.v3.oas.annotations.Hidden;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,14 +20,15 @@ import java.util.stream.Collectors;
 @RestControllerAdvice(assignableTypes = TaskController.class)
 @Hidden()
 public class TaskExceptionHandler {
-
+    private static final Logger logger = LoggerFactory.getLogger(TaskExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        logger.error("User data validation error. {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();

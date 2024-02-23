@@ -34,7 +34,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Operation(
             description = "Getting information about current authorized User",
