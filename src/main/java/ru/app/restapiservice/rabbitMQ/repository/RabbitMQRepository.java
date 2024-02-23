@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient("task-tracker-email-sender")
 public interface RabbitMQRepository {
 
-
     @PostMapping("/message/greetings")
     ResponseEntity<String> sendGreetingsMessage(@RequestBody String email);
 

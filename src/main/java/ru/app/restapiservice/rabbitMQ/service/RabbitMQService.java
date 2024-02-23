@@ -11,7 +11,6 @@ public class RabbitMQService {
 
     private final RabbitMQRepository rabbitMQRepository;
 
-
     public void sendGreetingsMessage(String email) throws FeignException {
         this.rabbitMQRepository.sendGreetingsMessage(email);
     }

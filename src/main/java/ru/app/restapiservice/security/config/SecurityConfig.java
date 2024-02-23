@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.app.restapiservice.api.model.RoleEnum;
 import ru.app.restapiservice.security.filter.JwtAuthFilter;
 import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 
@@ -27,13 +28,12 @@ public class SecurityConfig {
     private final UserDetailsServiceImp userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/all", "/users/{id}").hasAuthority("ADMIN")
+                        .requestMatchers("/users/all", "/users/{id}").hasAuthority(RoleEnum.ADMIN.toString())
                         .requestMatchers("/user", "/tasks").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -43,13 +43,10 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

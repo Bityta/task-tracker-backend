@@ -9,7 +9,6 @@ import ru.app.restapiservice.api.model.dto.task.TaskDtoView;
 public class TaskMapper {
 
     public TaskDtoView map(Task task) {
-
         return TaskDtoView.builder()
                 .id(task.getId())
                 .header(task.getHeader())
@@ -21,7 +20,6 @@ public class TaskMapper {
     }
 
     public Task map(TaskDto taskDto) {
-
         return Task.builder()
                 .header(taskDto.getHeader())
                 .description(taskDto.getDescription())

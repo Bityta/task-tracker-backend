@@ -14,8 +14,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         name = "Alexander",
                         email = "Bituckihs@gmail.com"
                 ),
+                title = "Task Tracker Backend",
                 description = "Rest Api Project for working with User and Task",
-                title = "Task Scheduler",
                 version = "1.0"
         ),
         servers = {
@@ -24,7 +24,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         url = "http://localhost:8080"
                 )
         }
-
 )
 @SecurityScheme(
         name = "Bearer Authentication",
@@ -34,5 +33,4 @@ import io.swagger.v3.oas.annotations.servers.Server;
         in = SecuritySchemeIn.HEADER
 )
 public class OpenApiConfig {
-
 }

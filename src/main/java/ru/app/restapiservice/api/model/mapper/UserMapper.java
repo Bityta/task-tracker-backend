@@ -11,7 +11,6 @@ import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
 public class UserMapper {
 
     public UserDtoView map(User user) {
-
         return UserDtoView.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -22,7 +21,6 @@ public class UserMapper {
     }
 
     public User map(UserLoginDto userDTO) {
-
         return User.builder()
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
@@ -31,7 +29,6 @@ public class UserMapper {
     }
 
     public User map(UserRegisterDto user) {
-
         return User.builder()
                 .email(user.getEmail())
                 .firstName(user.getFirstName())

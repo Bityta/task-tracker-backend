@@ -55,7 +55,6 @@ public class JwtService {
     }
 
     public String generateToken(User user) {
-
         return Jwts
                 .builder()
                 .subject(user.getEmail())
@@ -67,10 +66,8 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-
         byte[] keyBites = Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBites);
-
     }
 
 

@@ -34,8 +34,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
-    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
     @Operation(
             description = "Getting information about tasks current authorized User",
@@ -91,11 +90,11 @@ public class TaskController {
     )
     @GetMapping
     public ResponseEntity<?> getTasks(Principal user) {
-        logger.info("Received request to get tasks {} ", user.getName());
+        LOGGER.info("Received request to get tasks {} ", user.getName());
         List<TaskDtoView> tasks = this.taskService.getTasks(user.getName()).stream()
                 .map(this.taskMapper::map)
                 .collect(Collectors.toList());
-        logger.info("Tasks {} received successfully", user.getName());
+        LOGGER.info("Tasks {} received successfully", user.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -156,15 +155,15 @@ public class TaskController {
     )
     @PostMapping
     public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
-        logger.info("Received request to add task {}", user.getName());
+        LOGGER.info("Received request to add task {}", user.getName());
         this.taskService.addTask(
                 user.getName(), this.taskMapper.map(taskDto)
         );
-        logger.info("Tasks {} added successfully ", user.getName());
+        LOGGER.info("Tasks {} added successfully ", user.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Success: Task added");
+                .build();
 
     }
 

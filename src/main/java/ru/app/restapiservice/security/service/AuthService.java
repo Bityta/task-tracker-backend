@@ -25,10 +25,9 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    private static final RoleEnum DEFAULT_ROLE = RoleEnum.USER;
 
     public AuthenticationResponse register(User request) {
-
-
         User user = User.builder()
                 .email(request.getEmail())
                 .firstName(request.getFirstName())
@@ -38,17 +37,14 @@ public class AuthService {
 
         UserRole userRole = UserRole.builder()
                 .owner(user)
-                .role(RoleEnum.USER)
+                .role(DEFAULT_ROLE)
                 .build();
 
         if (this.userService.existByEmail(user.getEmail())) {
             throw new EmailIsAlreadyUsedException("This email address is already used");
         }
 
-
         this.userService.save(user, userRole);
-
-
         String token = this.jwtService.generateToken(user);
 
         return new AuthenticationResponse(token);
@@ -56,8 +52,6 @@ public class AuthService {
 
 
     public AuthenticationResponse authenticate(User request) throws UserNotFoundException, BadCredentialsException {
-
-
         User user = this.userService.findByEmail(request.getEmail());
 
         this.authenticationManager.authenticate(
@@ -66,8 +60,6 @@ public class AuthService {
                         request.getPassword()
                 )
         );
-
-
         String token = this.jwtService.generateToken(user);
 
         return new AuthenticationResponse(token);

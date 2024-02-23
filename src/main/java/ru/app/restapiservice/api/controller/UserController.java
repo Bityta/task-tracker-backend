@@ -34,7 +34,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Operation(
             description = "Getting information about current authorized User",
@@ -80,13 +80,13 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping
     public ResponseEntity<?> getUser(Principal user) {
-        logger.info("Received request to get current user");
+        LOGGER.info("Received request to get current user");
         UserDtoView userDtoView = this.userMapper.map(
                 userService.findByEmail(
                         user.getName()
                 )
         );
-        logger.info("Current user {} received successfully", userDtoView.getEmail());
+        LOGGER.info("Current user {} received successfully", userDtoView.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userDtoView);
@@ -145,11 +145,11 @@ public class UserController {
     )
     @GetMapping("/all")
     public ResponseEntity<?> getUsers() {
-        logger.info("Received request to get all users");
+        LOGGER.info("Received request to get all users");
         List<UserDtoView> users = this.userService.getAll().stream()
                 .map(this.userMapper::map)
                 .toList();
-        logger.info("Users details added successfully");
+        LOGGER.info("Users details added successfully");
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -213,11 +213,11 @@ public class UserController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
-        logger.info("Received request to get user by ID: " + id);
+        LOGGER.info("Received request to get user by ID: " + id);
         UserDtoView user = this.userMapper.map(
                 this.userService.findById(id)
         );
-        logger.info("User {} received successfully", user.getEmail());
+        LOGGER.info("User {} received successfully", user.getEmail());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

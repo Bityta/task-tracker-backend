@@ -30,8 +30,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsServiceImp userDetailsService;
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthFilter.class);
+    private static final String HEADER = "Authorization";
+    private static final String HEADER_CODE = "Bearer ";
 
     @Override
     protected void doFilterInternal(
@@ -40,14 +41,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(HEADER);
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith(HEADER_CODE)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(HEADER_CODE.length());
 
         String email;
 
@@ -55,11 +56,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             email = jwtService.extractEmail(token);
         } catch (ExpiredJwtException ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired");
-            logger.error("User authorization error. {}", ex.getMessage());
+            LOGGER.error("User authorization error. {}", ex.getMessage());
             return;
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException ex) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "JWT token is invalid");
-            logger.error("User authorization error. {}", ex.getMessage());
+            LOGGER.error("User authorization error. {}", ex.getMessage());
             return;
         }
 

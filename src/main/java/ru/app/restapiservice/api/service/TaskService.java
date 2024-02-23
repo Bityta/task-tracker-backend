@@ -18,18 +18,12 @@ public class TaskService {
 
     @Transactional
     public void addTask(String email, Task task) {
-
         User user = this.userService.findByEmail(email);
         user.addTask(task);
         task.setOwner(user);
-
         this.taskRepository.save(task);
         this.userService.save(user);
-
-
     }
-
-
     public List<Task> getTasks(String email) {
         return this.userService.findByEmail(email).getTasks();
     }

@@ -29,8 +29,7 @@ public class AuthenticationController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Operation(
             description = "Register a new user",
@@ -99,11 +98,11 @@ public class AuthenticationController {
     )
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        logger.info("Received request to register user {}", userRegisterDto.getEmail());
+        LOGGER.info("Received request to register user {}", userRegisterDto.getEmail());
         AuthenticationResponse response = this.authService.register(
                 this.userMapper.map(userRegisterDto)
         );
-        logger.info("User {} registered successfully", userRegisterDto.getEmail());
+        LOGGER.info("User {} registered successfully", userRegisterDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
@@ -168,11 +167,11 @@ public class AuthenticationController {
     )
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
-        logger.info("Received request to authorization user {}", userLoginDto.getEmail());
+        LOGGER.info("Received request to authorization user {}", userLoginDto.getEmail());
         AuthenticationResponse response = this.authService.authenticate(
                 this.userMapper.map(userLoginDto)
         );
-        logger.info("User {} authorization successfully", userLoginDto.getEmail());
+        LOGGER.info("User {} authorization successfully", userLoginDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);

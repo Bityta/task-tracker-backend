@@ -16,12 +16,12 @@ import java.util.Map;
 @RestControllerAdvice(assignableTypes = UserController.class)
 @Hidden
 public class UserExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(UserExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserNotFoundException.class)
     public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
-        logger.error("User not found. {}", ex.getMessage());
+        LOGGER.error("User not found. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.CONFLICT)
                 .error(ex.getMessage())

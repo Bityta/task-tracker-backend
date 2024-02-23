@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @RestControllerAdvice(assignableTypes = TaskController.class)
 @Hidden()
 public class TaskExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(TaskExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        logger.error("User data validation error. {}", ex.getMessage());
+        LOGGER.error("User data validation error. {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {

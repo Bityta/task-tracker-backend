@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 @Hidden()
 public class AuthenticationExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EmailIsAlreadyUsedException.class)
     public Map<String, String> handleEmailIsAlreadyUsedException(EmailIsAlreadyUsedException ex) {
-        logger.error("User registration error. {}", ex.getMessage());
+        LOGGER.error("User registration error. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.CONFLICT)
                 .error(ex.getMessage())
@@ -43,7 +43,7 @@ public class AuthenticationExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public Map<String, String> handleBadCredentialsException(BadCredentialsException ex) {
-        logger.error("User data invalid. {}", ex.getMessage());
+        LOGGER.error("User data invalid. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .error(ex.getMessage())
@@ -56,7 +56,7 @@ public class AuthenticationExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UserNotFoundException.class)
     public Map<String, String> handleBadCredentialsException(UserNotFoundException ex) {
-        logger.error("User data invalid. {}", ex.getMessage());
+        LOGGER.error("User data invalid. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .error(ex.getMessage())
@@ -66,12 +66,11 @@ public class AuthenticationExceptionHandler {
         return errors.getError();
     }
 
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        logger.error("User data validation error. {}", ex.getMessage());
+        LOGGER.error("User data validation error. {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -91,12 +90,11 @@ public class AuthenticationExceptionHandler {
         return error.getError();
     }
 
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FeignException.class)
     @Hidden
     public Map<String, String> handleFeignException(FeignException ex) {
-        logger.error("Error microservice. {}", ex.getMessage());
+        LOGGER.error("Error microservice. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .error(ex.getMessage())

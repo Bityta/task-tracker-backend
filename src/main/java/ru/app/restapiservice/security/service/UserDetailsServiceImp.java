@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.service.UserService;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.security.userDetails.UserDetailsImp;
@@ -17,10 +16,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UserNotFoundException {
-
-        User user = this.userService.findByEmail(email);
-
-        return new UserDetailsImp(user);
-
+        return new UserDetailsImp(this.userService.findByEmail(email));
     }
 }

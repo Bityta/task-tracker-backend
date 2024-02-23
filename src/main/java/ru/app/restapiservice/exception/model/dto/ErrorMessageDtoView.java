@@ -33,7 +33,6 @@ public class ErrorMessageDtoView {
         errors.put("error", this.error);
         errors.put("path", this.path);
 
-
         return errors;
     }
 }
