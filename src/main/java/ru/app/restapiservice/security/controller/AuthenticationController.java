@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserLoginDto;
 import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
 import ru.app.restapiservice.api.model.mapper.UserMapper;
+import ru.app.restapiservice.security.model.AuthenticationResponse;
 import ru.app.restapiservice.security.service.AuthService;
 
 @RestController
@@ -26,6 +29,8 @@ public class AuthenticationController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
 
     @Operation(
             description = "Register a new user",
@@ -94,9 +99,14 @@ public class AuthenticationController {
     )
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
+        logger.info("Received request to register user {}", userRegisterDto.getEmail());
+        AuthenticationResponse response = this.authService.register(
+                this.userMapper.map(userRegisterDto)
+        );
+        logger.info("User {} registered successfully", userRegisterDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.authService.register(this.userMapper.map(userRegisterDto)));
+                .body(response);
     }
 
     @Operation(
@@ -158,8 +168,13 @@ public class AuthenticationController {
     )
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
+        logger.info("Received request to authorization user {}", userLoginDto.getEmail());
+        AuthenticationResponse response = this.authService.authenticate(
+                this.userMapper.map(userLoginDto)
+        );
+        logger.info("User {} authorization successfully", userLoginDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.authService.authenticate(this.userMapper.map(userLoginDto)));
+                .body(response);
     }
 }
