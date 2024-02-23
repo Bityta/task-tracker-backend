@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: task-tracker-backend
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: 1111
+    url: jdbc:postgresql://localhost:15432/postgres
+  flyway:
+    url: jdbc:postgresql://localhost:15432/postgres
+    user: admin
+    password: 1111
+
+jwt:
+  token:
+    secret-key: AB1EAF0F3A22AB268424E93CC4162A1CB29283F7513337CE950BA3A372E7262E
+    life-time: 1600000
