@@ -78,9 +78,16 @@ public class UserController {
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getUser(Principal user) {
+        logger.info("Received request to get current user");
+        UserDtoView userDtoView = this.userMapper.map(
+                userService.findByEmail(
+                        user.getName()
+                )
+        );
+        logger.info("Current user {} received successfully", userDtoView.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.userMapper.map(userService.findByEmail(user.getName())));
+                .body(userDtoView);
     }
 
     @Operation(
@@ -205,8 +212,10 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
         logger.info("Received request to get user by ID: " + id);
-        UserDtoView user = this.userMapper.map(this.userService.findById(id));
-        logger.info("User details retrieved successfully: " + user.toString());
+        UserDtoView user = this.userMapper.map(
+                this.userService.findById(id)
+        );
+        logger.info("User {} received successfully", user.getEmail());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

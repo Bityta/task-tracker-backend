@@ -93,11 +93,11 @@ public class TaskController {
     )
     @GetMapping("/tasks")
     public ResponseEntity<?> getTasks(Principal user) {
-        logger.info("Received request to get tasks of authorized user: " + user.getName());
+        logger.info("Received request to get tasks {} ", user.getName());
         List<TaskDtoView> tasks = this.taskService.getTasks(user.getName()).stream()
                 .map(this.taskMapper::map)
                 .collect(Collectors.toList());
-        logger.info("Tasks authorized user details retrieved successfully: " + user.getName());
+        logger.info("Tasks {} received successfully", user.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -158,9 +158,11 @@ public class TaskController {
     )
     @PostMapping("/task")
     public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
-        logger.info("Received request to add task of authorized user: " + user.getName());
-        this.taskService.addTask(user.getName(), this.taskMapper.map(taskDto));
-        logger.info("Tasks authorized user details added successfully: " + user.getName());
+        logger.info("Received request to add task {}", user.getName());
+        this.taskService.addTask(
+                user.getName(), this.taskMapper.map(taskDto)
+        );
+        logger.info("Tasks {} added successfully ", user.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
