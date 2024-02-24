@@ -24,7 +24,6 @@ public class TaskExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         LOGGER.error("User data validation error. {}", ex.getMessage());
 

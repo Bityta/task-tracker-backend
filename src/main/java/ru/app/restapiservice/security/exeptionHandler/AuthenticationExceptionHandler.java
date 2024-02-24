@@ -68,7 +68,6 @@ public class AuthenticationExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @Hidden()
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         LOGGER.error("User data validation error. {}", ex.getMessage());
 
@@ -92,7 +91,6 @@ public class AuthenticationExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FeignException.class)
-    @Hidden
     public Map<String, String> handleFeignException(FeignException ex) {
         LOGGER.error("Error microservice. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
