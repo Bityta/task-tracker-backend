@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.UserRole;
+import ru.app.restapiservice.api.model.dto.email.EmailDto;
 import ru.app.restapiservice.api.repository.RoleRepository;
 import ru.app.restapiservice.api.repository.UserRepository;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
@@ -24,7 +25,11 @@ public class UserService {
     @Transactional
     public void save(User user, UserRole userRole) {
 
-        this.rabbitMQService.sendGreetingsMessage(user.getEmail());
+        this.rabbitMQService.sendGreetingsMessage(
+                EmailDto.builder()
+                        .email(user.getEmail())
+                        .build()
+        );
         this.roleRepository.save(userRole);
         this.userRepository.save(user);
 
