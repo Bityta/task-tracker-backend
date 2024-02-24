@@ -3,6 +3,7 @@ package ru.app.restapiservice.rabbitMQ.service;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.app.restapiservice.api.model.dto.email.EmailDto;
 import ru.app.restapiservice.rabbitMQ.repository.RabbitMQRepository;
 
 @Service
@@ -11,7 +12,7 @@ public class RabbitMQService {
 
     private final RabbitMQRepository rabbitMQRepository;
 
-    public void sendGreetingsMessage(String email) throws FeignException {
-        this.rabbitMQRepository.sendGreetingsMessage(email);
+    public void sendGreetingsMessage(EmailDto emailDto) throws FeignException {
+        this.rabbitMQRepository.sendGreetingsMessage(emailDto);
     }
 }
