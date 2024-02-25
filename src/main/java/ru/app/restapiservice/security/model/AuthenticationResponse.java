@@ -1,16 +1,16 @@
 package ru.app.restapiservice.security.model;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@Getter
 public class AuthenticationResponse {
-
-    //убрал data
+    //f
     private String token;
 
 }
