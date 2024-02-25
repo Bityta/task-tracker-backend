@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserLoginDto;
 import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
-import ru.app.restapiservice.api.model.mapper.user.UserMapper;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
 import ru.app.restapiservice.security.service.AuthService;
 
@@ -29,7 +28,6 @@ public class AuthenticationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthService authService;
-    private final UserMapper userMapper;
 
     @Operation(
             description = "Register a new user",
