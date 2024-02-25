@@ -15,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.dto.task.TaskDto;
 import ru.app.restapiservice.api.model.dto.task.TaskDtoView;
-import ru.app.restapiservice.api.model.mapper.TaskMapper;
+import ru.app.restapiservice.api.model.mapper.task.TaskMapper;
 import ru.app.restapiservice.api.service.TaskService;
+import ru.app.restapiservice.api.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -34,6 +36,7 @@ public class TaskController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
     private final TaskService taskService;
+    private final UserService userService;
     private final TaskMapper taskMapper;
 
     @Operation(
@@ -89,12 +92,12 @@ public class TaskController {
             }
     )
     @GetMapping
-    public ResponseEntity<?> getTasks(Principal user) {
-        LOGGER.info("Received request to get tasks {} ", user.getName());
-        List<TaskDtoView> tasks = this.taskService.getTasks(user.getName()).stream()
+    public ResponseEntity<?> getTasks(Principal principal) {
+        LOGGER.info("Received request to get tasks {} ", principal.getName());
+        List<TaskDtoView> tasks = this.taskService.getByOwnerEmail(principal.getName()).stream()
                 .map(this.taskMapper::map)
                 .collect(Collectors.toList());
-        LOGGER.info("Tasks {} received successfully", user.getName());
+        LOGGER.info("Tasks {} received successfully", principal.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -154,12 +157,13 @@ public class TaskController {
             }
     )
     @PostMapping
-    public ResponseEntity<?> addTask(Principal user, @Valid @RequestBody TaskDto taskDto) {
-        LOGGER.info("Received request to add task {}", user.getName());
+    public ResponseEntity<?> addTask(Principal principal, @Valid @RequestBody TaskDto taskDto) {
+        LOGGER.info("Received request to add task {}", principal.getName());
+        User user = this.userService.findByEmail(principal.getName());
         this.taskService.addTask(
-                user.getName(), this.taskMapper.map(taskDto)
+                user, this.taskMapper.map(taskDto)
         );
-        LOGGER.info("Tasks {} added successfully ", user.getName());
+        LOGGER.info("Tasks {} added successfully ", principal.getName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
