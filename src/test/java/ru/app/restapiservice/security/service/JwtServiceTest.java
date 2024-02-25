@@ -18,14 +18,13 @@ class JwtServiceTest {
     @InjectMocks
     private JwtService jwtService;
 
-    private String secretKey = "A11EBF0F3A22AB268424E93CC4162A1CB29283F7513337CE950BA3A372E7262E";
-    private int lifeTime = 3600000;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         jwtService = new JwtService();
+        String secretKey = "A11EBF0F3A22AB268424E93CC4162A1CB29283F7513337CE950BA3A372E7262E";
         jwtService.setSECRET_KEY(secretKey);
+        int lifeTime = 3600000;
         jwtService.setLIFE_TIME(lifeTime);
     }
 
