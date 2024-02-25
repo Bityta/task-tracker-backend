@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserDtoView;
-import ru.app.restapiservice.api.model.mapper.UserMapper;
+import ru.app.restapiservice.api.model.mapper.user.UserMapper;
 import ru.app.restapiservice.api.service.UserService;
 
 import java.security.Principal;
