@@ -3,16 +3,15 @@ package ru.app.restapiservice.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,17 +24,17 @@ public class User {
     @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
     private long id;
 
-    @Column(name = "email", nullable = false, unique = true, length = 50)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password", nullable = false)
     @JsonIgnore
     private String password;
 
-    @Column(name = "date_of_registration", nullable = false)
+    @Column(name = "date_of_registration")
     private LocalDate dateOfRegistration;
 
-    @Column(name = "first_name", nullable = false, length = 60)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
@@ -43,11 +42,9 @@ public class User {
     private UserRole userRole;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    @JsonIgnore
-    private List<Task> tasks;
+//    @JsonIgnore
+    private List<Task> tasks = new ArrayList<>();
+    ;
 
-    public void addTask(Task task) {
-        this.tasks.add(task);
-    }
 
 }
