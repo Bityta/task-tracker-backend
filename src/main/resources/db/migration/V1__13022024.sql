@@ -3,10 +3,10 @@ CREATE SEQUENCE users_id_seq START 1;
 CREATE TABLE users
 (
 
-    id       BIGINT PRIMARY KEY DEFAULT NEXTVAL('users_id_seq'),
+    id                   BIGINT PRIMARY KEY DEFAULT NEXTVAL('users_id_seq'),
     email                VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(60) NOT NULL,
-    date_of_registration DATE        not null DEFAULT CURRENT_DATE,
+    password             VARCHAR(60) NOT NULL,
+    date_of_registration DATE        NOT NULL,
     first_name           VARCHAR(50) NOT NULL
 
 );
