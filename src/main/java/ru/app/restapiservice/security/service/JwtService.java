@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.api.model.User;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -54,10 +53,10 @@ public class JwtService {
                 .getPayload();
     }
 
-    public String generateToken(User user) {
+    public String generateToken(String email) {
         return Jwts
                 .builder()
-                .subject(user.getEmail())
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + LIFE_TIME))
                 .signWith(getSigningKey())
