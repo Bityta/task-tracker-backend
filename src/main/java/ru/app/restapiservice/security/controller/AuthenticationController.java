@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.app.restapiservice.api.model.dto.user.UserLoginDto;
 import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
-import ru.app.restapiservice.api.model.mapper.UserMapper;
+import ru.app.restapiservice.api.model.mapper.user.UserMapper;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
 import ru.app.restapiservice.security.service.AuthService;
 
@@ -99,9 +99,7 @@ public class AuthenticationController {
     @PostMapping("/reg")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
         LOGGER.info("Received request to register user {}", userRegisterDto.getEmail());
-        AuthenticationResponse response = this.authService.register(
-                this.userMapper.map(userRegisterDto)
-        );
+        AuthenticationResponse response = this.authService.register(userRegisterDto);
         LOGGER.info("User {} registered successfully", userRegisterDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -168,9 +166,7 @@ public class AuthenticationController {
     @PostMapping("/log")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLoginDto) {
         LOGGER.info("Received request to authorization user {}", userLoginDto.getEmail());
-        AuthenticationResponse response = this.authService.authenticate(
-                this.userMapper.map(userLoginDto)
-        );
+        AuthenticationResponse response = this.authService.authenticate(userLoginDto);
         LOGGER.info("User {} authorization successfully", userLoginDto.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import ru.app.restapiservice.api.model.RoleEnum;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.UserRole;
+import ru.app.restapiservice.api.model.dto.user.UserLoginDto;
+import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
 import ru.app.restapiservice.api.service.UserService;
-import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
 
@@ -26,11 +27,12 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(User request) {
+
+    public AuthenticationResponse register(UserRegisterDto userRegisterDto) {
         User user = User.builder()
-                .email(request.getEmail())
-                .firstName(request.getFirstName())
-                .password(this.passwordEncoder.encode(request.getPassword()))
+                .email(userRegisterDto.getEmail())
+                .firstName(userRegisterDto.getFirstName())
+                .password(this.passwordEncoder.encode(userRegisterDto.getPassword()))
                 .dateOfRegistration(LocalDate.now())
                 .build();
 
@@ -39,27 +41,21 @@ public class AuthService {
                 .role(DEFAULT_ROLE)
                 .build();
 
-        if (this.userService.existByEmail(user.getEmail())) {
-            throw new EmailIsAlreadyUsedException("This email address is already used");
-        }
-
         this.userService.save(user, userRole);
-        String token = this.jwtService.generateToken(user);
+        String token = this.jwtService.generateToken(user.getEmail());
 
         return new AuthenticationResponse(token);
     }
 
 
-    public AuthenticationResponse authenticate(User request) throws UserNotFoundException, BadCredentialsException {
-        User user = this.userService.findByEmail(request.getEmail());
-
+    public AuthenticationResponse authenticate(UserLoginDto userLoginDto) throws UserNotFoundException, BadCredentialsException {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        userLoginDto.getEmail(),
+                        userLoginDto.getPassword()
                 )
         );
-        String token = this.jwtService.generateToken(user);
+        String token = this.jwtService.generateToken(userLoginDto.getEmail());
 
         return new AuthenticationResponse(token);
 

@@ -3,7 +3,7 @@ package ru.app.restapiservice.rabbitMQ.service;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.app.restapiservice.api.model.dto.email.EmailDto;
+import ru.app.restapiservice.rabbitMQ.model.dto.email.EmailDto;
 import ru.app.restapiservice.rabbitMQ.repository.RabbitMQRepository;
 
 @Service
