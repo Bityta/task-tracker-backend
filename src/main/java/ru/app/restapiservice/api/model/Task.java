@@ -12,7 +12,9 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "tasks")
+@EqualsAndHashCode
 public class Task {
 
     @Id

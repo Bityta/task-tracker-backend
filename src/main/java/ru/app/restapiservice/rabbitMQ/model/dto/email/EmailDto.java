@@ -1,10 +1,10 @@
 package ru.app.restapiservice.rabbitMQ.model.dto.email;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
 @Builder
+@Getter
 public class EmailDto {
 
     private String email;

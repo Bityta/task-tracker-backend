@@ -12,10 +12,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "users")
+@ToString(exclude = {"userRole", "tasks"})
 public class User {
 
     @Id
@@ -38,13 +40,10 @@ public class User {
     private String firstName;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    @JsonIgnore
     private UserRole userRole;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-//    @JsonIgnore
     private List<Task> tasks = new ArrayList<>();
-    ;
 
 
 }

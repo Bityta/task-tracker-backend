@@ -12,6 +12,8 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_roles")
+@ToString
+@EqualsAndHashCode
 public class UserRole {
 
     @Id
