@@ -1,4 +1,4 @@
-package ru.app.restapiservice.api.model.dto.email;
+package ru.app.restapiservice.rabbitMQ.model.dto.email;
 
 import lombok.Builder;
 import lombok.Data;

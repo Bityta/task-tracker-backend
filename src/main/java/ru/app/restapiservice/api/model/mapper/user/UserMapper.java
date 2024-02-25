@@ -1,4 +1,4 @@
-package ru.app.restapiservice.api.model.mapper;
+package ru.app.restapiservice.api.model.mapper.user;
 
 import org.springframework.stereotype.Component;
 import ru.app.restapiservice.api.model.User;
