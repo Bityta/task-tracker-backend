@@ -7,6 +7,7 @@ import ru.app.restapiservice.api.model.Task;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.repository.TaskRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,19 +15,19 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final UserService userService;
 
     @Transactional
-    public void addTask(String email, Task task) {
-        User user = this.userService.findByEmail(email);
-        user.addTask(task);
+    public void addTask(User user, Task task) {
+        if (user.getTasks() == null) {
+            user.setTasks(new ArrayList<>());
+        }
+        user.getTasks().add(task);
         task.setOwner(user);
         this.taskRepository.save(task);
-        this.userService.save(user);
     }
 
-    public List<Task> getTasks(String email) {
-        return this.userService.findByEmail(email).getTasks();
+    public List<Task> getByOwnerEmail(String email) {
+        return this.taskRepository.getByOwner_Email(email);
     }
 
 }
