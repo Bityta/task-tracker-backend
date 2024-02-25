@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.app.restapiservice.api.model.User;
 import ru.app.restapiservice.api.model.UserRole;
-import ru.app.restapiservice.api.model.dto.email.EmailDto;
 import ru.app.restapiservice.api.repository.RoleRepository;
 import ru.app.restapiservice.api.repository.UserRepository;
+import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
+import ru.app.restapiservice.rabbitMQ.model.mapper.email.EmailMapper;
 import ru.app.restapiservice.rabbitMQ.service.RabbitMQService;
 
 import java.util.List;
@@ -21,24 +22,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final RabbitMQService rabbitMQService;
+    private final EmailMapper emailMapper;
 
     @Transactional
     public void save(User user, UserRole userRole) {
 
+        if (this.existByEmail(user.getEmail())) {
+            throw new EmailIsAlreadyUsedException("This email address is already used");
+        }
         this.rabbitMQService.sendGreetingsMessage(
-                EmailDto.builder()
-                        .email(user.getEmail())
-                        .build()
+                this.emailMapper.map(user)
         );
         this.roleRepository.save(userRole);
         this.userRepository.save(user);
 
     }
 
-    @Transactional
-    public void save(User user) {
-        this.userRepository.save(user);
-    }
 
     public User findByEmail(String email) {
         return this.userRepository.findByEmail(email)
