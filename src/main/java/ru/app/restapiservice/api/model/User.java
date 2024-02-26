@@ -1,6 +1,5 @@
 package ru.app.restapiservice.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,7 +40,6 @@ public class User {
      * The password of the user.
      */
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
     /**
