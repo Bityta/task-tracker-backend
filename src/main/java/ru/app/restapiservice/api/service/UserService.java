@@ -46,6 +46,7 @@ public class UserService {
 
     /**
      * Retrieves a user by email.
+     *
      * @param email The email of the user to retrieve.
      * @return The user with the specified email.
      * @throws UserNotFoundException if the user is not found.
@@ -57,6 +58,7 @@ public class UserService {
 
     /**
      * Retrieves all users.
+     *
      * @return A list of all users.
      */
     public List<User> getAll() {
@@ -65,6 +67,7 @@ public class UserService {
 
     /**
      * Checks if a user with the specified email exists.
+     *
      * @param email The email to check.
      * @return true if a user with the email exists, false otherwise.
      */
@@ -74,6 +77,7 @@ public class UserService {
 
     /**
      * Retrieves a user by ID.
+     *
      * @param id The ID of the user to retrieve.
      * @return The user with the specified ID.
      * @throws UserNotFoundException if the user is not found.

@@ -103,8 +103,9 @@ public class TaskController {
 
     /**
      * Adds a new task for the current authorized user.
+     *
      * @param principal The authenticated user's principal object.
-     * @param taskDto The TaskDto object representing the new task.
+     * @param taskDto   The TaskDto object representing the new task.
      * @return ResponseEntity indicating the success of the operation.
      */
     @Operation(

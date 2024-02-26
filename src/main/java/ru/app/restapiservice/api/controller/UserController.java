@@ -93,6 +93,7 @@ public class UserController {
 
     /**
      * Retrieves information about all users (ADMIN method).
+     *
      * @return ResponseEntity containing a list of user data (id, email, firstName, role).
      */
     @Operation(
@@ -147,6 +148,7 @@ public class UserController {
 
     /**
      * Retrieves information about a specific user by ID (ADMIN method).
+     *
      * @param id The ID of the user to retrieve.
      * @return ResponseEntity containing user data (id, email, firstName, role).
      */
