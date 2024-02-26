@@ -23,7 +23,9 @@ import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 
 import java.io.IOException;
 
-
+/**
+ * Filter class to handle JWT authentication.
+ */
 @RequiredArgsConstructor
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -34,6 +36,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsServiceImp userDetailsService;
 
+    /**
+     * Performs JWT authentication for each incoming request.
+     *
+     * @param request     HTTP request object
+     * @param response    HTTP response object
+     * @param filterChain Filter chain for handling requests
+     * @throws ServletException if an error occurs during the servlet execution
+     * @throws IOException      if an I/O error occurs while processing the request
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -64,10 +75,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
             if (this.jwtService.isValid(token, userDetails)) {
@@ -80,11 +88,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-
             }
         }
+
         filterChain.doFilter(request, response);
-
-
     }
 }

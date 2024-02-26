@@ -1,6 +1,5 @@
 package ru.app.restapiservice.api.controller;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -26,6 +25,9 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class for handling task-related operations.
+ */
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -39,12 +41,18 @@ public class TaskController {
     private final UserService userService;
     private final TaskMapper taskMapper;
 
+    /**
+     * Retrieves tasks for the current authorized user.
+     *
+     * @param principal The authenticated user's principal object.
+     * @return ResponseEntity containing a list of TaskDtoView objects.
+     */
     @Operation(
-            description = "Getting information about tasks current authorized User",
+            description = "Getting information about tasks for the current authorized user",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Getting user tasks (id, header, description, isCompleted, dateCompleted)",
+                            description = "Successful retrieval of user tasks",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = {
@@ -54,58 +62,53 @@ public class TaskController {
                                                                     {
                                                                         "id": 1,
                                                                         "header": "ExampleHeader1",
-                                                                        "description": "containing a description",
+                                                                        "description": "Containing a description",
                                                                         "dateCompleted": null,
                                                                         "completed": false
                                                                     },
                                                                     {
                                                                         "id": 2,
                                                                         "header": "ExampleHeader2",
-                                                                        "description": "containing a description",
+                                                                        "description": "Containing a description",
                                                                         "dateCompleted": null,
                                                                         "completed": false
                                                                     }
                                                                 ]
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user  / Token expiry",
-                            content = @Content(
-
-                            )
+                            description = "Unauthorized user / Token expiry"
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token",
-                            content = @Content(
-
-
-                            )
+                            description = "Invalid Token"
                     )
-
             }
     )
     @GetMapping
     public ResponseEntity<?> getTasks(Principal principal) {
-        LOGGER.info("Received request to get tasks {} ", principal.getName());
+        LOGGER.info("Received request to get tasks for user: {}", principal.getName());
         List<TaskDtoView> tasks = this.taskService.getByOwnerEmail(principal.getName()).stream()
                 .map(this.taskMapper::map)
                 .collect(Collectors.toList());
-        LOGGER.info("Tasks {} received successfully", principal.getName());
-
+        LOGGER.info("Tasks for user {} retrieved successfully", principal.getName());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tasks);
     }
 
+    /**
+     * Adds a new task for the current authorized user.
+     * @param principal The authenticated user's principal object.
+     * @param taskDto The TaskDto object representing the new task.
+     * @return ResponseEntity indicating the success of the operation.
+     */
     @Operation(
-            description = "Creating a new task current authorized User",
+            description = "Creating a new task for the current authorized user",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "application/json",
@@ -114,62 +117,42 @@ public class TaskController {
                                             value = """
                                                             {
                                                                 "header": "ExampleHeader",
-                                                                "description": "containing a description"
+                                                                "description": "Containing a description"
                                                             }
                                                     """
-
                                     )
                             }
-
                     )
-
             ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful creation of a new Task",
-                            content = @Content(
-
-                            )
+                            description = "Successful creation of a new Task"
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request",
-                            content = @Content(
-
-                            )
+                            description = "Invalid request"
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user  / Token expiry",
-                            content = @Content(
-
-                            )
+                            description = "Unauthorized user / Token expiry"
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token",
-                            content = @Content(
-
-                            )
+                            description = "Invalid Token"
                     )
-
             }
     )
     @PostMapping
     public ResponseEntity<?> addTask(Principal principal, @Valid @RequestBody TaskDto taskDto) {
-        LOGGER.info("Received request to add task {}", principal.getName());
+        LOGGER.info("Received request to add task for user: {}", principal.getName());
         User user = this.userService.findByEmail(principal.getName());
         this.taskService.addTask(
                 user, this.taskMapper.map(taskDto)
         );
-        LOGGER.info("Tasks {} added successfully ", principal.getName());
-
+        LOGGER.info("Task added successfully for user: {}", principal.getName());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
-
     }
-
-
 }

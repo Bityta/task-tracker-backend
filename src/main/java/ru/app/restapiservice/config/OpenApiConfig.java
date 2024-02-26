@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+/**
+ * Configuration class for OpenAPI (Swagger) documentation generation.
+ */
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
@@ -15,7 +18,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         email = "Bituckihs@gmail.com"
                 ),
                 title = "Task Tracker Backend",
-                description = "Rest Api Project for working with User and Task",
+                description = "Rest API Project for working with User and Task",
                 version = "1.0"
         ),
         servers = {

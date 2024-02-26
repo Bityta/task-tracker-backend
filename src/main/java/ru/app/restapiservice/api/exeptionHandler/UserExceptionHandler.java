@@ -13,11 +13,22 @@ import ru.app.restapiservice.exception.model.dto.ErrorMessageDtoView;
 
 import java.util.Map;
 
+/**
+ * Global exception handler for UserController.
+ * This class handles exceptions thrown by UserController and provides appropriate error responses.
+ */
 @RestControllerAdvice(assignableTypes = UserController.class)
 @Hidden
 public class UserExceptionHandler {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserExceptionHandler.class);
 
+    /**
+     * Handles UserNotFoundException and returns a response with HTTP status code 409 Conflict.
+     *
+     * @param ex The UserNotFoundException instance.
+     * @return A map containing error information.
+     */
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserNotFoundException.class)
     public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {

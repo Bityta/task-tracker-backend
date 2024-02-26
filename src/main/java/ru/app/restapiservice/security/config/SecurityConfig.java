@@ -1,6 +1,5 @@
 package ru.app.restapiservice.security.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,9 @@ import ru.app.restapiservice.api.model.RoleEnum;
 import ru.app.restapiservice.security.filter.JwtAuthFilter;
 import ru.app.restapiservice.security.service.UserDetailsServiceImp;
 
+/**
+ * Configuration class for Spring Security.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -28,6 +30,13 @@ public class SecurityConfig {
     private final UserDetailsServiceImp userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
+    /**
+     * Configures the security filter chain.
+     *
+     * @param http The HttpSecurity object to configure security.
+     * @return A SecurityFilterChain object representing the security filter chain.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -44,11 +53,23 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Creates an AuthenticationManager bean.
+     *
+     * @param config The AuthenticationConfiguration object.
+     * @return An AuthenticationManager object.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Creates a PasswordEncoder bean.
+     *
+     * @return A PasswordEncoder object.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

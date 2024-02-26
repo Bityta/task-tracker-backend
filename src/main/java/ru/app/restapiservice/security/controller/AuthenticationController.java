@@ -20,6 +20,9 @@ import ru.app.restapiservice.api.model.dto.user.UserRegisterDto;
 import ru.app.restapiservice.security.model.AuthenticationResponse;
 import ru.app.restapiservice.security.service.AuthService;
 
+/**
+ * Controller class for user authentication.
+ */
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -29,6 +32,12 @@ public class AuthenticationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthService authService;
 
+    /**
+     * Endpoint for user registration.
+     *
+     * @param userRegisterDto The UserRegisterDto object containing registration information.
+     * @return ResponseEntity containing the authentication response.
+     */
     @Operation(
             description = "Register a new user",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -43,12 +52,9 @@ public class AuthenticationController {
                                                                 "firstName": "Example"
                                                             }
                                                     """
-
                                     )
                             }
-
                     )
-
             ),
             responses = {
                     @ApiResponse(
@@ -61,37 +67,24 @@ public class AuthenticationController {
                                                     value = """
                                                                     {
                                                                         "token": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiaXR5MUBnbWFpbC5jb20iLCJpYXQiOjE3MDgyMDI0MDksImV4cCI6MTcwODIwNDAwOX0.uHBn-6hMiMKOkpUpsZ983_HJN4Ej0SmKSxBJtRrP68JjyVIhPZxzLINqKbSrCle6"
-                                                                        
                                                                     }
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request",
-                            content = @Content(
-
-                            )
+                            description = "Invalid request"
                     ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Email is already in use",
-                            content = @Content(
-
-                            )
+                            description = "Email is already in use"
                     ),
                     @ApiResponse(
                             responseCode = "500",
-                            description = "Error microservice",
-                            content = @Content(
-
-                            )
+                            description = "Error microservice"
                     )
-
             }
     )
     @PostMapping("/reg")
@@ -104,6 +97,12 @@ public class AuthenticationController {
                 .body(response);
     }
 
+    /**
+     * Endpoint for user login.
+     *
+     * @param userLoginDto The UserLoginDto object containing login credentials.
+     * @return ResponseEntity containing the authentication response.
+     */
     @Operation(
             description = "Log in as user",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -117,12 +116,9 @@ public class AuthenticationController {
                                                                 "password": "example123"
                                                             }
                                                     """
-
                                     )
                             }
-
                     )
-
             ),
             responses = {
                     @ApiResponse(
@@ -135,30 +131,20 @@ public class AuthenticationController {
                                                     value = """
                                                                     {
                                                                         "token": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiaXR5MUBnbWFpbC5jb20iLCJpYXQiOjE3MDgyMDI0MDksImV4cCI6MTcwODIwNDAwOX0.uHBn-6hMiMKOkpUpsZ983_HJN4Ej0SmKSxBJtRrP68JjyVIhPZxzLINqKbSrCle6"
-                                                                        
                                                                     }
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request",
-                            content = @Content(
-
-                            )
+                            description = "Invalid request"
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Incorrect user data",
-                            content = @Content(
-
-                            )
+                            description = "Incorrect user data"
                     )
-
             }
     )
     @PostMapping("/log")

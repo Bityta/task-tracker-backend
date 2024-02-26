@@ -17,6 +17,9 @@ import ru.app.restapiservice.security.model.AuthenticationResponse;
 
 import java.time.LocalDate;
 
+/**
+ * Service class responsible for user authentication and registration.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -27,7 +30,12 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
+    /**
+     * Registers a new user with the provided information.
+     *
+     * @param userRegisterDto DTO containing user registration information
+     * @return AuthenticationResponse containing JWT token upon successful registration
+     */
     public AuthenticationResponse register(UserRegisterDto userRegisterDto) {
         User user = User.builder()
                 .email(userRegisterDto.getEmail())
@@ -47,7 +55,14 @@ public class AuthService {
         return new AuthenticationResponse(token);
     }
 
-
+    /**
+     * Authenticates a user with the provided login credentials.
+     *
+     * @param userLoginDto DTO containing user login credentials
+     * @return AuthenticationResponse containing JWT token upon successful authentication
+     * @throws UserNotFoundException   if the user is not found
+     * @throws BadCredentialsException if the credentials are invalid
+     */
     public AuthenticationResponse authenticate(UserLoginDto userLoginDto) throws UserNotFoundException, BadCredentialsException {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -58,7 +73,6 @@ public class AuthService {
         String token = this.jwtService.generateToken(userLoginDto.getEmail());
 
         return new AuthenticationResponse(token);
-
     }
 
 }

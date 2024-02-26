@@ -20,12 +20,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Exception handler for user authentication related exceptions.
+ */
 @RestControllerAdvice(assignableTypes = AuthenticationController.class)
 @Hidden()
 public class AuthenticationExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationExceptionHandler.class);
 
+    /**
+     * Exception handler for EmailIsAlreadyUsedException.
+     *
+     * @param ex The EmailIsAlreadyUsedException instance.
+     * @return A map containing error details.
+     */
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EmailIsAlreadyUsedException.class)
     public Map<String, String> handleEmailIsAlreadyUsedException(EmailIsAlreadyUsedException ex) {
@@ -35,11 +44,15 @@ public class AuthenticationExceptionHandler {
                 .error(ex.getMessage())
                 .path("/reg")
                 .build();
-
-
         return errors.getError();
     }
 
+    /**
+     * Exception handler for BadCredentialsException.
+     *
+     * @param ex The BadCredentialsException instance.
+     * @return A map containing error details.
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public Map<String, String> handleBadCredentialsException(BadCredentialsException ex) {
@@ -47,25 +60,35 @@ public class AuthenticationExceptionHandler {
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .error(ex.getMessage())
-                .path("/")
+                .path("/log")
                 .build();
-
         return errors.getError();
     }
 
+    /**
+     * Exception handler for UserNotFoundException.
+     *
+     * @param ex The UserNotFoundException instance.
+     * @return A map containing error details.
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UserNotFoundException.class)
-    public Map<String, String> handleBadCredentialsException(UserNotFoundException ex) {
+    public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
         LOGGER.error("User data invalid. {}", ex.getMessage());
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .error(ex.getMessage())
-                .path("/")
+                .path("/log")
                 .build();
-
         return errors.getError();
     }
 
+    /**
+     * Exception handler for MethodArgumentNotValidException.
+     *
+     * @param ex The MethodArgumentNotValidException instance.
+     * @return A map containing error details.
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -83,12 +106,17 @@ public class AuthenticationExceptionHandler {
                 .error(errors.keySet().stream()
                         .map(errors::get)
                         .collect(Collectors.joining(". ")))
-                .path("/")
+                .path("/reg || /log")
                 .build();
-
         return error.getError();
     }
 
+    /**
+     * Exception handler for FeignException.
+     *
+     * @param ex The FeignException instance.
+     * @return A map containing error details.
+     */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FeignException.class)
     public Map<String, String> handleFeignException(FeignException ex) {
@@ -96,9 +124,8 @@ public class AuthenticationExceptionHandler {
         ErrorMessageDtoView errors = ErrorMessageDtoView.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .error(ex.getMessage())
-                .path("/")
+                .path("/reg || /log")
                 .build();
-
         return errors.getError();
     }
 

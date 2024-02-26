@@ -1,6 +1,5 @@
 package ru.app.restapiservice.api.controller;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,23 +24,32 @@ import ru.app.restapiservice.api.service.UserService;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * Controller class for handling user-related operations.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "Users", description = "Methods for working with authorized user")
+@Tag(name = "Users", description = "Methods for working with authorized users")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final UserMapper userMapper;
 
+    /**
+     * Retrieves information about the current authorized user.
+     *
+     * @param user The authenticated user's principal object.
+     * @return ResponseEntity containing user data (id, email, firstName, role).
+     */
     @Operation(
-            description = "Getting information about current authorized User",
+            description = "Getting information about the current authorized user",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Getting user data (id, email, firstName, role)",
+                            description = "Successful retrieval of user data",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = {
@@ -54,27 +62,18 @@ public class UserController {
                                                                     "role": "USER"
                                                                 }
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user  / Token expiry",
-                            content = @Content(
-
-                            )
+                            description = "Unauthorized user / Token expiry"
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token",
-                            content = @Content(
-
-                            )
+                            description = "Invalid Token"
                     )
-
             }
     )
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
@@ -92,12 +91,16 @@ public class UserController {
                 .body(userDtoView);
     }
 
+    /**
+     * Retrieves information about all users (ADMIN method).
+     * @return ResponseEntity containing a list of user data (id, email, firstName, role).
+     */
     @Operation(
             description = "ADMIN method. Getting information about all users",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Getting List User data (id, email, firstName, role)",
+                            description = "Successful retrieval of user data",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = {
@@ -109,38 +112,25 @@ public class UserController {
                                                                         "firstName": "Example1",
                                                                         "role": "USER"
                                                                     },
-                                                                    {
-                                                                     
-                                                                        "id": 2,
+                                                                    {   "id": 2,
                                                                         "email": "example2@gmail.com",
                                                                         "firstName": "Example2",
                                                                         "role": "USER"
-                                                                      
-                                                                        
                                                                     }
                                                                 ]
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry",
-                            content = @Content(
-
-                            )
+                            description = "Unauthorized user / Token expiry"
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Insufficient access rights / Invalid Token",
-                            content = @Content(
-
-                            )
+                            description = "Insufficient access rights / Invalid Token"
                     )
-
             }
     )
     @GetMapping("/all")
@@ -149,80 +139,65 @@ public class UserController {
         List<UserDtoView> users = this.userService.getAll().stream()
                 .map(this.userMapper::map)
                 .toList();
-        LOGGER.info("Users details added successfully");
-
+        LOGGER.info("Users details retrieved successfully");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(users);
     }
 
+    /**
+     * Retrieves information about a specific user by ID (ADMIN method).
+     * @param id The ID of the user to retrieve.
+     * @return ResponseEntity containing user data (id, email, firstName, role).
+     */
     @Operation(
-            description = "ADMIN method. Getting information authorized User",
+            description = "ADMIN method. Getting information about an authorized user by ID",
             parameters = @Parameter(
                     name = "id",
-                    description = "id authorized User"
-
+                    description = "ID of the authorized user"
             ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Getting User data (id, email, firstName, role)",
+                            description = "Successful retrieval of user data",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = {
                                             @ExampleObject(
                                                     value = """
-                                                               
-                                                                    {   "id": 1,
-                                                                        "email": "example1@gmail.com",
-                                                                        "firstName": "Example1",
-                                                                        "role": "USER"
-                                                                    }
-                                                                
+                                                                {   "id": 1,
+                                                                    "email": "example1@gmail.com",
+                                                                    "firstName": "Example1",
+                                                                    "role": "USER"
+                                                                }
                                                             """
-
                                             )
                                     }
-
                             )
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry",
-                            content = @Content(
-
-                            )
+                            description = "Unauthorized user / Token expiry"
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Insufficient access rights / Invalid Token",
-                            content = @Content(
-
-                            )
-                    )
-                    ,
+                            description = "Insufficient access rights / Invalid Token"
+                    ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Non-existent id",
-                            content = @Content(
-
-                            )
+                            description = "Non-existent ID"
                     )
-
             }
     )
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable long id) {
-        LOGGER.info("Received request to get user by ID: " + id);
+        LOGGER.info("Received request to get user by ID: {}", id);
         UserDtoView user = this.userMapper.map(
                 this.userService.findById(id)
         );
-        LOGGER.info("User {} received successfully", user.getEmail());
-
+        LOGGER.info("User {} retrieved successfully", user.getEmail());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(user);
     }
-
-
 }
