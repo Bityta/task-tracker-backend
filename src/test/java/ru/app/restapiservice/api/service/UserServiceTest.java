@@ -12,7 +12,7 @@ import ru.app.restapiservice.api.repository.RoleRepository;
 import ru.app.restapiservice.api.repository.UserRepository;
 import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
-import ru.app.restapiservice.rabbitMQ.model.dto.email.EmailDto;
+import ru.app.restapiservice.rabbitMQ.model.dto.EmailGreetingsDto;
 import ru.app.restapiservice.rabbitMQ.model.mapper.email.EmailMapper;
 import ru.app.restapiservice.rabbitMQ.service.RabbitMQService;
 
@@ -154,7 +154,7 @@ class UserServiceTest {
                 .build();
 
 
-        EmailDto emailDto = EmailDto.builder()
+        EmailGreetingsDto emailDto = EmailGreetingsDto.builder()
                 .email(user.getEmail())
                 .build();
 
@@ -184,7 +184,7 @@ class UserServiceTest {
                 .build();
 
 
-        EmailDto emailDto = EmailDto.builder()
+        EmailGreetingsDto emailDto = EmailGreetingsDto.builder()
                 .email(user.getEmail())
                 .build();
 

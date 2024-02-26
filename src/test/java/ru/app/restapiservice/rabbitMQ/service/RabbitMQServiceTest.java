@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.app.restapiservice.rabbitMQ.model.dto.email.EmailDto;
+import ru.app.restapiservice.rabbitMQ.model.dto.EmailGreetingsDto;
 import ru.app.restapiservice.rabbitMQ.repository.RabbitMQRepository;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,11 +23,11 @@ public class RabbitMQServiceTest {
 
     @Test
     public void testSendGreetingsMessage() {
-        EmailDto emailDto = EmailDto.builder()
+        EmailGreetingsDto emailDto = EmailGreetingsDto.builder()
                 .email("test@gmail.com")
                 .build();
 
-        when(rabbitMQRepository.sendGreetingsMessage(any(EmailDto.class))).thenReturn(null);
+        when(rabbitMQRepository.sendGreetingsMessage(any(EmailGreetingsDto.class))).thenReturn(null);
         this.rabbitMQService.sendGreetingsMessage(emailDto);
         Mockito.verify(this.rabbitMQRepository, Mockito.times(1)).sendGreetingsMessage(emailDto);
     }
