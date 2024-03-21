@@ -13,7 +13,7 @@ import ru.app.restapiservice.api.repository.UserRepository;
 import ru.app.restapiservice.exception.customException.EmailIsAlreadyUsedException;
 import ru.app.restapiservice.exception.customException.UserNotFoundException;
 import ru.app.restapiservice.rabbitMQ.model.dto.EmailGreetingsDto;
-import ru.app.restapiservice.rabbitMQ.model.mapper.email.EmailMapper;
+import ru.app.restapiservice.rabbitMQ.model.mapper.EmailMapper;
 import ru.app.restapiservice.rabbitMQ.service.RabbitMQService;
 
 import java.util.List;
