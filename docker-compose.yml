@@ -1,0 +1,19 @@
+version: "3.1"
+services:
+
+  task-tracker-backend:
+    container_name: "task-tracker-backend"
+    image: task-tracker-backend:0.0.1
+    networks:
+      - task-tracker-service-discovery_task-tracker-network
+    build:
+      context: ../task-tracker-backend/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+
+
+networks:
+  task-tracker-service-discovery_task-tracker-network:
+    external: true

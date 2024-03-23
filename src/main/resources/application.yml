@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: task-tracker-backend
+
+  profiles:
+    active: prod
+
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    schemas: admin
+
+
+logging:
+  file:
+    path: ./src/main/resources/logs
+    name: ${logging.file.path}/task-tracker-backend.log
+  logback:
+    rollingpolicy:
+      max-file-size: 1000000
+      clean-history-on-start: true
