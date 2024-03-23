@@ -109,9 +109,14 @@ Here's an example configuration:
 database:
   username: your-username
   password: your-password
+
+jwt:
+  token:
+    secret-key: your-tocken
 ```
 
-Replace your-username, and your-password with the actual URL, username, and password for your PostgreSQL database.
+
+Replace your-username, and your-password with the actual URL, username, and password for your PostgreSQL database, and your-token - key in Base64 format
 
 ## Dependencies
 
