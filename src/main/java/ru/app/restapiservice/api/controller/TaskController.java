@@ -81,11 +81,13 @@ public class TaskController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry"
+                            description = "Unauthorized user / Token expiry",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token"
+                            description = "Invalid Token",
+                            content = @Content
                     )
             }
     )
@@ -128,19 +130,23 @@ public class TaskController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful creation of a new Task"
+                            description = "Successful creation of a new Task",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request"
+                            description = "Invalid request",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry"
+                            description = "Unauthorized user / Token expiry",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token"
+                            description = "Invalid Token",
+                            content = @Content
                     )
             }
     )

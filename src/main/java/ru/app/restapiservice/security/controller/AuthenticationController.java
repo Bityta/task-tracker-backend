@@ -75,15 +75,18 @@ public class AuthenticationController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request"
+                            description = "Invalid request",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Email is already in use"
+                            description = "Email is already in use",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "500",
-                            description = "Error microservice"
+                            description = "Error microservice",
+                            content = @Content
                     )
             }
     )
@@ -139,11 +142,13 @@ public class AuthenticationController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid request"
+                            description = "Invalid request",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Incorrect user data"
+                            description = "Incorrect user data",
+                            content = @Content
                     )
             }
     )

@@ -5,16 +5,20 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:15432/task-tracker-backend
-    username: admin
-    password: admin
+    username: ${database.username}
+    password: ${database.password}
 
   flyway:
     url: jdbc:postgresql://localhost:15432/task-tracker-backend
-    user: admin
-    password: admin
+    user: ${database.username}
+    password: ${database.password}
 
 jwt:
   token:
     secret-key: AB1EAF0F3A22AB268424E93CC4162A1CB29283F7513337CE950BA3A372E7262E
     life-time: 1600000
 
+
+database:
+  username:
+  password:

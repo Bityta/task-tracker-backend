@@ -68,11 +68,13 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry"
+                            description = "Unauthorized user / Token expiry",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Invalid Token"
+                            description = "Invalid Token",
+                            content = @Content
                     )
             }
     )
@@ -126,11 +128,13 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry"
+                            description = "Unauthorized user / Token expiry",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Insufficient access rights / Invalid Token"
+                            description = "Insufficient access rights / Invalid Token",
+                            content = @Content
                     )
             }
     )
@@ -179,15 +183,18 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized user / Token expiry"
+                            description = "Unauthorized user / Token expiry",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Insufficient access rights / Invalid Token"
+                            description = "Insufficient access rights / Invalid Token",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Non-existent ID"
+                            description = "Non-existent ID",
+                            content = @Content
                     )
             }
     )

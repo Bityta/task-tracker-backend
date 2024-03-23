@@ -3,7 +3,7 @@ spring:
     name: task-tracker-backend
 
   profiles:
-    active: ide
+    active: prod
 
 
   jpa:
