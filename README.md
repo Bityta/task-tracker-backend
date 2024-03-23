@@ -6,6 +6,9 @@ Task Tracker Backend is an application developed using Spring Boot, providing a 
 tasks. The application offers functionality for user registration, authentication, task creation, editing, deletion, and
 marking tasks as completed.
 
+Additional project details can be found in the Task Tracker Info.  Please refer to it [here](https://github.com/Bityta/task-tracker-info).
+
+
 ## Features
 
 ### User Management:
